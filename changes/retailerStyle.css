@@ -1,0 +1,111 @@
+body{
+  margin-top: 50px;
+}
+
+.modal {
+  text-align: center;
+  padding: 0!important;
+}
+
+.modal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -4px; /* Adjusts for spacing */
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
+#logotext{
+  opacity:0;
+}
+
+#logoImg{
+  transition:0.5s;
+  border-radius:25px;
+  background-color: red;
+}
+
+#logoImg:hover{
+  transition:0.5s;
+  background-color: black;
+  border-radius:25px;
+  padding-right: 65px;
+}
+
+#logoImg:hover + #logotext{
+  transition:0.5s;
+  opacity:1;
+  margin-left: -65px;
+  padding-right: 65px;
+}
+
+#notificationSpan{
+  padding: 3px 7px 3px 7px;
+    background: #cc0000;
+    color: #ffffff;
+    font-weight: bold;
+    margin-left: 84px;
+    border-radius: 9px;
+    -moz-border-radius: 9px; 
+    -webkit-border-radius: 9px;
+    position: absolute;
+    margin-top: -25px;
+    font-size: 11px;
+}
+
+#myPostNav{
+  transition: 0.5s;
+  background-color:#DD837C;
+  border-radius: 5px 0px 0px 5px;
+  opacity: 0.5;
+}
+
+#collaborateNav{
+  transition: 0.5s;
+  background-color:#DD837C;
+  border-radius: 0px 5px 5px 0px;
+  opacity: 0.5;
+}
+
+#myPostNav:hover , #collaborateNav:hover{
+  transition: 0.5s;
+  box-shadow: -1px 0px 10px #FFBDB8;
+  text-shadow: 1px 1px 5px #FFBDB8;
+  opacity: 1;
+}
+
+#myPostNav.active{
+  transition: 0.5s;
+  opacity: 1;
+  background-color: #AA3939 ; /*linear-gradient(to right, rgba(128, 21, 21, 1), rgba(221, 131, 124, 1));*/
+  box-shadow: -1px 0px 10px #FFBDB8;
+  text-shadow: 1px 1px 5px #FFBDB8;
+}
+
+#collaborateNav.active{
+  transition: 0.5s;
+  opacity: 1;
+  background-color: #AA3939 ;
+  /*background: linear-gradient(to left, rgba(128, 21, 21, 1), rgba(221, 131, 124, 1));*/
+  box-shadow: -1px 0px 10px #FFBDB8;
+  text-shadow: 1px 1px 5px #FFBDB8;
+}
+
+#moreDetails{
+  transition: 0.5s;
+  background-color:#DD837C;
+}
+
+#moreDetails:hover, #moreDetails a:hover{
+  transition: 0.5s;
+  text-decoration: none;
+  background-color: #AA3939;
+  box-shadow: -1px 0px 10px #FFBDB8;
+  text-shadow: 1px 1px 5px #FFBDB8;
+}

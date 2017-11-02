@@ -1,0 +1,70 @@
+body {
+	background: #282828 !important;		
+}
+
+.container button{
+	font-family: "Roboto", sans-serif;
+	text-transform: uppercase;
+	outline: 0;
+	background: #4CAF50;
+	width: 100%;
+	border: 0;
+	padding: 15px;
+	color: #FFFFFF;
+	font-size: 14px;
+	-webkit-transition: all 0.3 ease;
+	transition: all 0.3 ease;
+	cursor: pointer;
+}
+
+
+#mapss {
+	width: 100%;
+	height: 100%;
+	padding-top: 56.25%;
+}
+
+ .shopIcon {
+    width: 24px;
+    height: 24px;
+	padding-right:5px;
+}
+	  
+	  
+.iw_table_icon {
+    text-align: right;
+}
+#listing
+{
+	 cursor: pointer;
+}
+.placeIcon
+{
+	width: 15px;
+    height: 24px;
+    margin: 2px;
+}
+
+  #resultsTable {
+        border-collapse: collapse;
+        width: 240px;
+      }
+	  
+.modal {
+  text-align: center;
+  padding: 0!important;
+}
+
+.modal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -4px; /* Adjusts for spacing */
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}

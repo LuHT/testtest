@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>RightHere</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/retailerStyle.css">
+	<link rel="stylesheet" href="css/loading.css">
+	<link rel="stylesheet" href="css/navbar.css">
+	<style> .pac-container { z-index: 10000; } </style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="js/navbaranim.js"></script>
+	<script src="js/retailerFillPost.js"></script>
+	<script type="text/javascript" src="js/qrcode.js"></script>
+	<script src="js/fadeInBody.js"></script>
+	<script src="js/retailerPreview.js"></script>
+	<script src="js/retailerAddDiv.js"></script>
+</head>
+<body onload="init2();" style="background-color:#111523;">
+	
+<!--NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR-->
+	
+	<nav class="navbar navbar-default navbar-fixed-top" style="background-color:#640F08; border-color:#640F08; min-width:380px;" id="navbarhome">
+		<div class="container-fluid">
+			
+			<ul class="nav navbar-nav pull-right">
+				<div class="row clearfix" style="margin-top:10px;">
+					<div class="col-xs-4">
+						<li><a id="notificationLink" href="/retailerNotification" style="margin-top:-5px; background-color:#640F08; color:white" class="btn btn-default btn-md glyphicon glyphicon-bell"></a></li>
+						<span id="notificationSpan" align="center" style="display:none; border-style: solid; border-width: 0.5px; margin-left:-8px; margin-top:-27px;">0</span>
+					</div>
+					 
+					<div class="col-xs-8">
+						<li><a onclick="SignOut()" id="signout" style="padding:10px;"><span style="margin-top:2px; font-size: 20px;" class="glyphicon glyphicon-off"></span></a></li>
+					</div>
+				</div>
+			</ul>
+			
+			<!-- LOGO -->
+			<div class="navbar-header">              
+				<a onclick="openNav()" class="navbar-brand" style="color:white;"><span>My Profile</span></a>
+				<span class="btn btn-default btn-md glyphicon glyphicon-menu-down navbar-toggle pull-left" data-toggle="collapse" data-target="#navbar" style="z-index:10000; margin-top:11px; background-color:#640F08; color:white"></span>
+			</div>
+	
+			<!-- Menu Items -->
+			<div class="collapse navbar-collapse" id="navbar">
+				<ul class="nav navbar-nav">
+					<li class="active"><a style="color:white;">Home</a></li>
+					<li><a href="/retailerPost" style="color:white;">Post</a></li>
+					<li><a href="/retailerArchive" style="color:white;">Archive</a></li>
+					<!--li><a href="/retailerNotification" style="color:white;">Notification</a><span id="notificationSpan" align="center" style="display:none">0</span></li-->
+				</ul>
+			</div>		
+		</div>
+	</nav>
+	
+<!-- BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY-->
+			
+		<!--PROFILE AT SIDENAV-->	
+		<div id="mySidenav" class="sidenav" style="margin-top:40px; margin-left:-20px;">
+		  <a><img class="media-object dp" src="<%= ProfilePic %>" style="width:150px; height:150px; border-radius:15px;float:none; margin:0 auto;" id="profilePicture"></a>
+		  <a><h3 class="media-heading" style="text-align:center" id="shopName"><%= ShopName %></h3></a>
+		  <a><h4 style="color:grey;text-align:center;" id="userEmail"><%= Retailer_Email %></h4></a>
+		  <a><h5 id="shop_Category" style="text-align:center;"><%= shop_Category %></h5></a>
+		  <a><h5 id="shopLocation" style="text-align:center;"><%= shopLocation %></h5></a>
+		  <a><h5 id="Charges" style="text-align:center;"></h5></a>
+		</div>		
+			
+
+		<div id="main" style="margin-top:50px; display: none" id="retailerBody">	
+			<!-- <div class="container" align="center" style="margin-bottom: 20px;">
+				<div class="container_fluid">
+					<div class="row" style="border-color:#B45048; min-width:380px; max-width:970px; height: 30px;">
+						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 active" style="line-height: 30px; color:white" id="myPostNav" onclick="navbarLink('myPostNav')">My Post</div>
+						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="line-height: 30px; color:white" id="collaborateNav" onclick="navbarLink('collaborateNav')">Collaborated Post</div>
+					</div>
+				</div>
+			</div> -->
+
+			<div class="container" align="center" style="margin-bottom: 20px; min-width:380px; max-width:1000px;">
+				<div class="container-fluid" style="border-radius: 5px;"> <!--background: linear-gradient(black, white);-->
+					<div class="row" style="border-color:#B45048; height: 30px;">
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 active" style="line-height: 30px;" id="myPostNav" onclick="navbarLink('myPostNav')">My Post</div>
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="line-height: 30px;" id="collaborateNav" onclick="navbarLink('collaborateNav')">Collaboration</div>
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="line-height: 30px;" id="explorePostNav" onclick="navbarLink('explorePostNav')">Explore</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="container" style="min-width:380px; max-width:1000px;" id="MyPostDiv">
+				<div class="panel panel-primary" style="box-shadow: 5px 5px 20px #282828; background-color: white; border-radius: 5px;"> <!--background: linear-gradient(black, white);-->
+
+					<div id="loadercontainerPost">
+						<div class="loader"></div>
+					</div>
+				
+					<div class="panel-body">
+						<div class="container-fluid" style="display: inline-block; width:100%; margin:auto;">
+							<div class="row" id="myPostField" style="display: inline-block; width:100%; margin-left:-5px;">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="container" style="min-width:380px; max-width:1000px; display: none" id="MyCollaborationDiv">
+				<div class="panel panel-primary" style="box-shadow: 5px 5px 20px #282828;"> <!--background: linear-gradient(black, white);-->
+
+					<div id="loadercontainerCollab">
+						<div class="loader"></div>
+					</div>
+				
+					<div class="panel-body">
+						<div class="container-fluid" style="display: inline-block; width:100%; margin:auto;">
+							<div class="row" id="myCollabField" style="display: inline-block; width:100%; margin-left:-5px;">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="container" style="min-width:380px; max-width:1000px; display: none" id="MyExploreDiv">
+				<div class="panel panel-primary" style="box-shadow: 5px 5px 20px #282828;"> <!--background: linear-gradient(black, white);-->
+
+					<div id="loadercontainerExplore">
+						<div class="loader"></div>
+					</div>
+				
+					<div class="panel-body">
+						<div class="container-fluid" style="display: inline-block; width:100%; margin:auto;">
+							<div class="row" id="myExploreField" style="display: inline-block; width:100%; margin-left:-5px;">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--div class="container">
+				<div class="panel panel-primary">
+					<div class="panel panel-heading">
+						Testing 
+					</div>
+				</div>
+			</div-->
+
+			<!-- ###### MODAL QR ###### -->
+			<div class="modal fade" id="myModal" role="dialog" >
+				<div class="modal-dialog modal-sm">
+									
+					<!-- Modal content-->
+					<div class="modal-content">
+						<!--div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<strong><h4 class="modal-title" id="">QR Code</h4></strong>
+						</div-->
+						<div class="modal-body">
+						
+							<div class="row" style="margin-left:5px; margin-right:5px;">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<strong><h4 class="modal-title" id="">QR Code</h4></strong>
+							</div>
+							
+							<hr style="margin-top:-1px; margin-bottom:-1px;">
+							
+							<div class="row">
+								<div class="container-fluid">
+									<div  id="QRCode" style="background-color:black; display: table; margin: 0 auto;">
+															
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- ###### POST SUB EVENT ###### -->
+			<div class="modal fade" id="subEvent" role="dialog" >
+				<div class="modal-dialog">			
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-body">
+					
+							<div class="modal-content" id="modalTitleBody" style="background-color:#8F2D25; box-shadow:none">
+								<div class="modal-body" >
+									<button type="button" class="btn btn-circle btn-xl close" data-dismiss="modal"><i class="glyphicon glyphicon-remove-circle"></i></button>
+									<h4 class="modal-title" style="font-weight:bold; font-size:20px; color:white;" id="modalTitle">Post Sub Event</h4>
+								</div>
+							</div>
+							
+							
+							<div class="modal-body" >
+								<form id="subevent_form" method="POST">
+									<div class="container-fluid" id="test">
+										<label>Advertisement Picture:</label>
+										<input type="file" id= "subevent_img" name="subevent_img" class="form-control"/>
+										<div class="container-fluid" id="imageDIV">
+											<img id="imgHolder" src="" style="width:100%; height:auto;">
+										</div>
+										<!--SHOPNAME COMPULSORY-->
+										<div class="shopname">
+										<label for="Shopname">Name:</label>
+										<input type='text' class="form-control" name ="organizer_name" id="shopName" value="<%= ShopName %>" readonly>
+										<br>
+										</div>
+										<!--SHOPNAME CATEGORY-->
+										<div class="category">
+											<label for="shopCategory">Shop Category:</label>
+											<div id="AddshopCategoryBox" style="display:none;">
+												<input type='text' class="form-control" id="AddshopCategory" name = "AddCategory" placeholder='Input New Category' >
+											</div>
+
+											<div  id="DefaultshopCategoryBox" >
+												<select type='text' class="form-control" id="shopCategory"  name = "category" value="<%= shopCategory %>">
+												<option id = "selectedOp" value="selected"  selected="true" disabled="true">Select Shop Category from you've used in the past</option>
+												<%for(var x = 0 ; x <= shopCategory.length-1; x++ ) { %>
+													<option id = "<%=x+1 %>"  value="<%=shopCategory[x] %>"><%=shopCategory[x]%></option>
+												<% } %>
+												</select>
+										</div>
+										<a style="cursor:pointer" onclick="ShowAddshopCategoryBox()" id="AddshopCategoryL">Add New Category</a>
+										<br>
+										<br>
+										</div>
+										<!--Event Previous LOCATION COMPULSORY-->
+										<div>
+										<label for="location">Location:</label>
+										<div id="PreviousLocationBox" >
+											<select type='text' class="form-control" id="PreviousLocation" name = "PreviousLocation" value="<%= shopCategory %>">
+												<option id = "selectedOp2" value="selected" selected="true" disabled="true">Select Shop Category from you've used in the past</option>
+												<%for(var x = 0 ; x <= shopCategory.length-1; x++ ) { %>
+												<option id = "<%=x+1 %>" value="<%=shopCategory[x] %>"><%=shopCategory[x]%></option>
+												<% } %>
+											</select>
+										</div>
+							<!--Event New LOCATION COMPULSORY-->
+											
+												<input type="text" id="AutoSearch" class="form-control" style="z-index:10000; display:none" name="address" placeholder="Specify Where it's Held">
+											
+
+											<div id="locationAdd" style="display:none;" class="panel panel-default panel-body">
+												<div id="mapss" style="padding-top: 60.25%;"  class="panel panel-default panel-body" ></div> 
+													<a style="cursor:pointer" onclick="Reloction()" id="Relocation">Re-location</a>
+											</div>
+											<a style="cursor:pointer" onclick="ShowlocationBoxes()" id="AddLocation">Add New Location</a>
+													  
+											<div class="panel panel-default" id="locationDropDown" style="display:none;">
+												<div class="panel-body" id="shopLocationDiv"></div>
+											</div>
+											<br>
+										<label>Description:</label>
+										<input type="text" name="description" class="form-control"/>
+										<br>
+										<button type="submit" id="subevent_btn" class="btn btn-success form-control">Submit</button>
+									</div>
+									</form>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+			<!-- ###### EXCEED LIMIT ###### -->
+			<div class="modal fade" id="ExceedLimit" role="dialog" >
+				<div class="modal-dialog">			
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-body">
+					
+							<div class="modal-content" id="modalTitleBody" style="background-color:#f44e42; box-shadow:none">
+								<div class="modal-body" >
+									<button type="button" class="btn btn-circle btn-xl close" data-dismiss="modal"><i class="glyphicon glyphicon-remove-circle"></i></button>
+									<h4 class="modal-title" style="font-weight:bold; font-size:20px; color:white;" id="modalTitle">Invalid Action!</h4>
+								</div>
+							</div>
+						
+							<div class="modal-body" >
+								Post Advertisment exceed limit
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- ###### PREVIEW POSST FOR EXPLORE ###### -->
+			<div class="modal fade" id="viewSubCollab" role="dialog" >
+				<div class="modal-dialog">			
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-body">
+					
+							<div class="modal-content" id="collabSubModal" style="background-color:#550000; box-shadow:none">
+								<div class="modal-body">
+									<button type="button" class="btn btn-circle btn-xl close" data-dismiss="modal"><i class="glyphicon glyphicon-remove-circle"></i></button>
+									<h4 class="modal-title" style="font-weight:bold; font-size:20px; color:white;" id="modalTitle">Join Event</h4>
+								</div>
+							</div>
+						
+							<div class="modal-body">
+								<div class="row">
+									<div class="container-fluid">
+										<h3 style="margin-bottom:30px;">Send request to collaborate with this event?</h3>
+										<div class="row" id="exploreBtn">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+<!-- the div that represents the modal dialog -->
+<div class="modal fade" id="contact_dialog" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Enter your name</h4>
+            </div>
+                <div class="modal-body">
+                    <form id="contact_form" action="/onlinejson/test.php" method="POST">
+                        First name: <input type="text" name="first_name"><br/>
+                        Last name: <input type="text" name="last_name"><br/>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="submitForm" class="btn btn-default">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+			 <div id="info-content">
+				<table>
+					<tr id="iw-url-row" class="iw_table_row">
+					<td id="shop_icon" class="iw_table_icon"></td>
+					<td id="Shop-url"></td>
+					</tr>
+				</table>
+			</div>
+	<script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
+<!-- 	<script src="js/RetailerValidate.js"></script> no using liao -->
+	<script src="js/SignInValidate.js"></script>
+	<script src="js/Bootstrap-Confirmation.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrBtMeE1zR3A61Pn9oqW8fcKx5kV5gBI8&libraries=places&callback=getLocation"
+    async defer></script> 
+	
+</body>
+</html>

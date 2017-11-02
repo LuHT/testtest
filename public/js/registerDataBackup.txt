@@ -1,0 +1,592 @@
+////Un-use
+
+
+
+
+/*function readURL(input){
+	if(input.files && input.files[0]){
+		var reader = new FileReader();
+		
+		reader.onload = function(e){
+			$('#imgPreview')
+				.attr('src', e.target.result)
+		};
+		reader.readAsDataURL(input.files[0]);
+	}
+}*/
+
+/*
+
+var sorted_Shopping_Mall=[];
+var All_Shopping_mall=[];
+var Formated_Address_shop = [];
+var Shop_Name = [];
+var Shop_Location= [];
+var Sorted_Shop_Name=[];
+var tablerow=0;
+var AllEmail = [];
+
+	var latt;
+	var Long;
+	var currentmarker;
+	var places,map,autocomplete;
+	var markers = [];
+	var shopname_loc;
+	var CurrentLocation ;
+	//https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi_hdpi.png
+	//https://developers.google.com/maps/documentation/javascript/images/marker_green
+	 var MARKER_PATH = 'https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi_hdpi.png';
+//get Location of the current user
+ function initMaps() {
+	
+	   getLocation();  
+  // initmap();
+ }
+ 
+ function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(initmap);
+		
+    } else {
+    
+    }
+	
+}
+//init the map
+function initmap(position) {
+	 console.log("fffff");
+	 
+	// 1.534756, 110.356970
+    latt = position.coords.latitude; 
+	Long = position.coords.longitude; 
+	CurrentLocation = {lat: latt, lng: Long};
+	CurrentLocation = {lat: 1.534756, lng: 110.356970};
+        map = new google.maps.Map(document.getElementById('mapss'), {
+          zoom: 10,
+          center: CurrentLocation
+        }); 
+	
+		//setup the autocomplete
+		shopname_loc = document.getElementById('shopname');
+	   var options = {
+		types: ['establishment'],
+		componentRestrictions: {country: 'MY'}
+		};
+		 autocomplete = new google.maps.places.Autocomplete(
+			shopname_loc, {
+              types: ['establishment'],
+			    componentRestrictions: {country: 'MY'}
+             
+            });
+			  infoWindow = new google.maps.InfoWindow({
+          content: document.getElementById('info-content')
+        });
+
+		
+        places = new google.maps.places.PlacesService(map);
+		
+		getShoppingmall();
+        autocomplete.addListener('place_changed', onPlaceChanged);
+		
+}
+//listener of the autocomplete
+function onPlaceChanged()
+{
+		var place = autocomplete.getPlace();
+		var f =document.getElementById('shopname').value;
+        if (place.geometry) {
+          map.panTo(place.geometry.location);
+          map.setZoom(17);
+		  shopname_loc.value = "";
+		
+		  
+          search(f);
+        } else {
+         // document.getElementById('autocomplete').placeholder = 'Enter a city';
+        }
+		
+}
+//text search
+ function search(f) {
+
+        var search = {
+          bounds: map.getBounds(),
+          query : f,
+        };
+	places = new google.maps.places.PlacesService(map);
+        places.textSearch(search, function(results, status) {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            // Create a marker for each search
+			var i = 0;
+			//check address
+			var checker = false;
+			getSortedShoppingMall();
+		
+				var resultAddress = results[i].formatted_address.split(", ");
+				for(var  g = 0 ; g<=resultAddress.length-1 ; g++)
+				{
+					for(var x = 0 ; x <= All_Shopping_mall.length-1 ; x++)
+					{
+						if(All_Shopping_mall[x].includes(resultAddress[g]))
+						{	
+							checker = true;
+						}
+					}	
+				}
+				if(checker)
+				{
+					
+				}
+				else{
+					checker= false;
+					//alert("Address not found!");
+					$('#myModal').modal('toggle');
+					var messageTitle = document.getElementById("modalTitle");
+					messageTitle.innerHTML = "Warning"
+					
+					var message = document.getElementById("alertMsg");
+					message.innerHTML = "Address not found!";
+					
+					return;
+				}
+			
+		if(Shop_Name.length > 0)
+		{			
+				console.log(Sorted_Shop_Name);
+				for(var x = 0 ;x <= Sorted_Shop_Name.length-1 ; x++)
+				{
+					console.log(results[i].name.replace(/ /g,""));
+					console.log(Sorted_Shop_Name[i].replace(/ /g,""));
+					//var Shop_name = Sorted_Shop_Name[0];
+					if(!(results[i].name.replace(/ /g,"")).includes(Sorted_Shop_Name[x].replace(/ /g,"")))
+					{
+						//alert("Different Shop name!");
+						$('#myModal').modal('toggle');
+						var messageTitle = document.getElementById("modalTitle");
+						messageTitle.innerHTML = "Warning"
+						
+						var message = document.getElementById("alertMsg");
+						message.innerHTML = "Different Shop name!";
+						
+						return;
+					}
+		
+				}	
+		}	
+		if(Formated_Address_shop.length> 0 )
+		{
+			console.log(Formated_Address_shop);
+			for(var x = 0 ; x <=Formated_Address_shop.length - 1 ; x++)
+			{
+				if(results[i].formatted_address == Formated_Address_shop[x])
+				{
+					//alert("You Have Already Selected the Shop name Locaiton!");
+					$('#myModal').modal('toggle');
+						var messageTitle = document.getElementById("modalTitle");
+						messageTitle.innerHTML = "Warning"
+						
+						var message = document.getElementById("alertMsg");
+						message.innerHTML = "You Have Already Selected the Shop name Locaiton!";
+						
+					return;
+				}
+			}
+			
+		}
+				getFormated_Address_shop_name(results[i]);
+				Shop_Location = getShop_Location();		
+				console.log(Shop_Location.toString());
+				Sorted_Shop_Name = Sorted_Shop_Names(Shop_Location);
+						var checkExistShop= "";
+						console.log("ssss: " +Sorted_Shop_Name[0] );
+						console.log("ssss: " +Shop_Name[0] );
+			
+			var check1 = firebase.database().ref("Retailers");
+			
+			check1.orderByChild("Shop_Name").equalTo(Sorted_Shop_Name[0]).on("value", function(snapshot) {
+		checkExistShop = snapshot.val();
+		//console.log("ccc:"  +checkExist);'
+		if(checkExistShop == null)
+		{
+			console.log("here");
+			localStorage.setItem("CheckExistEmail" , "true");
+			console.log(localStorage.getItem("CheckExistEmail"));
+			var check2 = firebase.database().ref("Admin");
+			check2.orderByChild("Shop_Name").equalTo(Sorted_Shop_Name[0]).on("value", function(snapshot) {
+			checkExistShop = snapshot.val();
+			if(checkExistShop == null)
+			{
+				console.log("here2");
+				document.getElementById("shopname").style.borderColor = "#66afe9";
+				document.getElementById("shopNameText").innerHTML = "";
+				localStorage.setItem("CheckExistShop" , "true");
+				console.log(localStorage.getItem("CheckExistShop"));
+				
+				// Use marker animation to drop the icons incrementally on the map.
+				var markerz = new google.maps.Marker({
+                position: results[i].geometry.location,
+                animation: google.maps.Animation.DROP,
+				});
+				
+				markers.push(markerz);
+				// If the user clicks a shop marker, show the details of that shop
+				// in an info window.
+				google.maps.event.addListener(markerz, 'click', showInfoWindow);
+				google.maps.event.addListener(infoWindow, 'closeclick', closeInfoWindow);
+				markerz.placeResult = results[i];
+				setTimeout(dropMarker(markers.length -1), i * 100);
+				addContent(results[i],markers.length -1);
+				
+			//	console.log(All_Shopping_mall[0]);
+				
+				
+			}
+			else{
+				
+				document.getElementById("shopNameText").innerHTML = "That Shop Name(" + Sorted_Shop_Name[0]  +") is Register. Try another.";
+				document.getElementById("shopNameText").style.color = "#f45342";  
+				console.log("EXisting!2");
+				Sorted_Shop_Name.splice(0, 1);
+				Shop_Name.splice(0, 1);
+				Shop_Location.splice(0, 1);
+				Formated_Address_shop.splice(0, 1);
+				localStorage.setItem("CheckExistShop" , "false");
+				console.log(localStorage.getItem("CheckExistShop"));
+			
+			}
+			});
+			
+		}
+		else
+		{
+			document.getElementById("shopNameText").innerHTML = "That Shop Name(" + Sorted_Shop_Name[0] +") is Register. Try another.";
+			document.getElementById("shopNameText").style.color = "#f45342";  
+			console.log("EXisting! :");
+			 Sorted_Shop_Name.splice(0, 1);
+			 Shop_Name.splice(0, 1);
+			 Shop_Location.splice(0, 1);
+			 Formated_Address_shop.splice(0, 1);
+			 console.log("Shop-name :" + Sorted_Shop_Name.length);
+			 console.log("-Shop :" + Shop_Name.length);
+			 console.log("Location!@@@ :" + Shop_Location.length);
+			 
+			localStorage.setItem("CheckExistShop" , "false");
+			console.log(localStorage.getItem("CheckExistShop"));
+		
+			}
+		});	
+            }
+          
+        });
+}
+
+// Get the place details for a search. Show the information in an info window,
+// anchored on the marker  for the search that the user selected.
+function showInfoWindow() { 
+    currentmarker = this;
+	
+    places.getDetails({placeId: currentmarker.placeResult.place_id},
+        function(place, status) {
+            if (status !== google.maps.places.PlacesServiceStatus.OK) {
+                return;
+              }
+				infoWindow.open(map, currentmarker);
+				buildIWContent(place);
+            });
+}
+//show the close InfoWindow
+function closeInfoWindow(){
+	var isd = currentmarker.placeResult.name;
+	var results = document.getElementById('results');
+	var id = currentmarker.placeResult.place_id;
+	
+	for(var  i=0  ; i <= markers.length-1 ; i++)
+	{
+		if(markers[i].placeResult.place_id == id)
+		{
+			Formated_Address_shop.splice(i, 1);
+			Shop_Name.splice(i, 1);
+			markers.splice(i, 1);
+			Shop_Location.splice(i, 1);
+			Sorted_Shop_Name.splice(i, 1);
+			
+			
+		}
+	}
+
+	//var row = results.rows[0].textContent;
+	//console.log(results.rows[0].cells[1].id);
+	//results.rows[x].textContent
+	//console.log(id);
+	//console.log(results.rows[0].cells[1].id);
+	for(var x = 0 ; x <= results.rows.length-1 ; x++)
+	{ 	
+		if(id == results.rows[x].cells[1].id)
+		{
+			console.log(results.rows[x].cells[1].id);
+			results.deleteRow(x);
+		}
+			
+	}
+	tablerow--;
+
+	currentmarker.setMap(null); 
+}
+//show the InfoWindow
+function buildIWContent(place) {
+	
+    document.getElementById('Shop-url').innerHTML = '<b><a target="_blank" href="' + place.url +
+    '">' + place.name + '</a></b>';		
+	document.getElementById('shop_icon').innerHTML = '<img class="shopIcon" ' +
+     'src="' + place.icon + '"/>';
+}
+		
+function dropMarker(i) {
+    return function() {
+    markers[i].setMap(map);
+	tablerow++;
+    };
+	
+}
+
+ function addContent(result, i) {
+        var results = document.getElementById('results');
+       // var markerLetter = String.fromCharCode('A'.charCodeAt(0) + (i % 26));
+        var markerIcon = MARKER_PATH;
+		var thisMarker = markers[i];
+        var tr = document.createElement('tr');
+        tr.style.backgroundColor = (i % 2 === 0 ? '#F0F0F0' : '#FFFFFF');
+        tr.onclick = function() {
+		for(var x = 0 ; x <= results.rows.length-1 ; x++)
+		{ 	
+			results.rows[x].style.backgroundColor = (x % 2 === 0 ? '#F0F0F0' : '#FFFFFF');
+			
+		}
+			this.style.backgroundColor='#BCD4EC';
+		google.maps.event.trigger(thisMarker, 'click');
+        };
+        var iconTd = document.createElement('td');
+        var nameTd = document.createElement('td');
+	
+		 nameTd.id =result.place_id;
+        var icon = document.createElement('img');
+        icon.src = markerIcon;
+        icon.setAttribute('class', 'placeIcon');
+        icon.setAttribute('className', 'placeIcon');
+        var name = document.createTextNode(result.name);
+        iconTd.appendChild(icon);
+        nameTd.appendChild(name);
+        tr.appendChild(iconTd);
+        tr.appendChild(nameTd);
+        results.appendChild(tr);
+		
+      }
+//getallshoppingmall of the search
+function getShoppingmall()
+{ 
+	var g;
+	var request = {
+		location: CurrentLocation,
+		query: "shoppingmall",
+	};
+	//All_Shopping_mall.push("sss");
+	//console.log(All_Shopping_mall[0].contains("sss"));
+	//console.log(All_Shopping_mall);
+		places = new google.maps.places.PlacesService(map);
+        places.textSearch(request, function(results, status) {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+			 
+           for (var i = 0; i < results.length; i++) {
+			    //console.log(results[i].name);
+				//console.log(results[i].formatted_address);
+				//console.log(All_Shopping_mall[0]);
+		
+						All_Shopping_mall.push(results[i].name);
+				
+			}
+		
+            }  	
+        });
+	console.log(All_Shopping_mall);
+		return;
+}
+
+//sorted out the unnecessary Shoppingmall 
+function getSortedShoppingMall()
+{
+	//console.log(All_Shopping_mall.valueOf());	
+		//console.log(sorted_Shopping_Mall.valueOf());
+		for(var i =0 ; i <= All_Shopping_mall.length-1 ; i++)
+	{
+	 if (((!All_Shopping_mall[i].toLowerCase().includes("mall")) && (!All_Shopping_mall[i].toLowerCase().includes("plaza"))) || (All_Shopping_mall[i].toLowerCase().includes("jaya"))) {
+                    sorted_Shopping_Mall.push(All_Shopping_mall[i]);
+                }
+	}
+	for (var i =0 ; i <= sorted_Shopping_Mall.length-1 ; i++) {
+		var shop_mall=sorted_Shopping_Mall[i];
+		
+                for (var x = 0; x <= All_Shopping_mall.length-1; x++) {
+					
+                    if (shop_mall.includes(All_Shopping_mall[x])) {
+						//console.log("sss:" + shop_mall);
+						
+                        All_Shopping_mall.splice(x, 1);
+						
+                    }
+                }
+            }
+		console.log(All_Shopping_mall.valueOf());	
+		console.log(sorted_Shopping_Mall.valueOf());
+	
+}
+//get the getFormated_Address_shop_name of the search
+function getFormated_Address_shop_name(result)
+{
+				Formated_Address_shop.push(result.formatted_address);
+				Shop_Name.push(result.name);
+}
+
+//sorted out the unnecessary Shoppingmall 
+function Sorted_Shop_Names(Shop_Location)
+{
+	
+	var Actual_Shop_Name= [];
+	for(var i = 0 ; i<=Shop_Name.length-1 ; i++)
+	{
+		var word="";
+		if(!(Shop_Name[i].includes("&")))
+		{
+			var ShopName = Shop_Name[i].split(" ");	
+			
+			for(var h = 0 ; h<=ShopName.length-1 ; h++)
+			{
+				if(!((Shop_Location[i].toLowerCase()).includes(ShopName[h].toLowerCase())))
+				{
+					word += ShopName[h] +" ";
+				}
+						
+			}
+			Actual_Shop_Name.push(word.trim());	
+		}
+		else
+		{
+			Actual_Shop_Name.push(Shop_Name[i]);
+		}
+		
+	}
+		//console.log(Actual_Shop_Name);
+	return Actual_Shop_Name;
+
+}
+	
+//get the ACtual shop Loction of the search
+function getShop_Location()
+{
+	var check = false; 
+	var shop_Locationa = [];
+	for (var v = 0 ; v <= All_Shopping_mall.length-1 ; v++)
+	{
+		for (var h = 0 ; h<=Formated_Address_shop.length-1 ; h++)
+		{	
+			var Address = Formated_Address_shop[h].split(", ");	
+			//console.log(Address);
+				for(var g= 0 ; g <=Address.length-1 ; g++)
+				{
+					if(All_Shopping_mall[v].includes(Address[g]))
+					{
+						shop_Locationa.push(All_Shopping_mall[v]);
+						//check= true;
+					}
+					
+				}
+	
+		}
+	}
+	console.log("dd: " + shop_Locationa);
+	return shop_Locationa;
+}*/
+
+//Email
+/*function validateEmail(){
+	var checkEmail = document.getElementById("email").value;
+	var atpos = checkEmail.indexOf("@");
+    var dotpos = checkEmail.lastIndexOf(".");
+
+		if (atpos<1 || dotpos<atpos+2 || dotpos+2>=checkEmail.length){
+			document.getElementById("email").style.borderColor = "#f45342";
+			document.getElementById("emailText").innerHTML = "";
+			localStorage.setItem("CheckExistEmail" , "false");
+				
+		}else{
+			var checkExist= "";
+		var check1 = firebase.database().ref("Retailers");
+			check1.orderByChild("Email").equalTo(checkEmail).on("value", function(snapshot) {
+		checkExist = snapshot.val();
+		//console.log("ccc:"  +checkExist);'
+		if(checkExist == null)
+		{
+			console.log("here");
+			document.getElementById("email").style.borderColor = "#66afe9";
+			document.getElementById("emailText").innerHTML = "";
+			localStorage.setItem("CheckExistEmail" , "true");
+			console.log(localStorage.getItem("CheckExistEmail"));
+			var check2 = firebase.database().ref("Admin");
+			check2.orderByChild("Email").equalTo(checkEmail).on("value", function(snapshot) {
+			checkExist = snapshot.val();
+			if(checkExist == null)
+			{
+				console.log("here2");
+				document.getElementById("email").style.borderColor = "#66afe9";
+				document.getElementById("emailText").innerHTML = "";
+				localStorage.setItem("CheckExistEmail" , "true");
+				console.log(localStorage.getItem("CheckExistEmail"));
+			
+				
+			}
+			else{
+				
+				document.getElementById("emailText").innerHTML = "That Email is Register. Try another.";
+				console.log("EXisting!2");
+				localStorage.setItem("CheckExistEmail" , "false");
+				console.log(localStorage.getItem("CheckExistEmail"));
+			
+			}
+			});
+			
+		}
+		else{
+			document.getElementById("emailText").innerHTML = "That Email is Register. Try another.";
+			console.log("EXisting!");
+			localStorage.setItem("CheckExistEmail" , "false");
+			console.log(localStorage.getItem("CheckExistEmail"));
+		}
+		});			
+		}
+			
+}*/
+/*function checkTableShopname()
+{
+	console.log("n change");
+	//console.log("Table Count Row: " + tablerow);
+	
+	 // var ShopnameTable = document.getElementById("resultsTable").rows.length;
+	 var ShopnameTable = document.getElementById("results").rows.length;
+	console.log("Actual Shop Name: " + Sorted_Shop_Name);
+	//  console.log("From Tble : " +document.getElementById("results").rows[0].cells[1].innerHTML);
+	  if(ShopnameTable != 0)
+	  {
+		document.getElementById("shopname").style.borderColor = "#66afe9";
+		document.getElementById("shopNameText").innerHTML = "";
+		document.getElementById("shopname").classList.remove('formInvalid');
+		document.getElementById("shopname").classList.add('formvalid');
+		return true;
+	  }
+	  else 
+	  {
+		document.getElementById("shopname").style.borderColor = "#f45342";
+		//document.getElementById("shopname").classList.add('formvalid');
+		document.getElementById("shopNameText").innerHTML = "Please enter at least one shop name";
+		document.getElementById("shopNameText").style.color = "#f45342";  
+		return false;
+	  }
+}*/

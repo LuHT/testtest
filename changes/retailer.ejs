@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>RightHere</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/retailerStyle.css">
+	<link rel="stylesheet" href="css/homeStyle.css">
+	<link rel="stylesheet" href="css/loading.css">
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="js/navbaranim.js"></script>
+	<script src="js/retailerFillPost.js"></script>
+	<script type="text/javascript" src="js/qrcode.js"></script>
+	<script src="js/fadeInBody.js"></script>
+	<script src="js/retailerPreview.js"></script>
+	
+	</head>
+<body onload="init2();" style="background-color:#707070;">
+	
+<!--NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR-->
+	
+	<nav class="navbar navbar-default navbar-fixed-top" style="background-color:#B45048; border-color:#B45048; min-width:380px;" id="navbarhome">
+		<div class="container-fluid">
+			
+			<ul class="nav navbar-nav pull-right">
+				<li><a onclick="SignOut()" id="signout" style="color:white;"><span>Log Out</span></a></li>
+			</ul>
+			
+			<!-- LOGO -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+					<span class=" glyphicon glyphicon-menu-down fa-lg" style="color:white;"></span>
+				</button>
+				<a onclick="openNav()" class="navbar-brand" style="color:white;"><span>My Profile</span></a>
+			</div>
+	
+			<!-- Menu Items -->
+			<div class="collapse navbar-collapse" id="navbar">
+				<ul class="nav navbar-nav">
+					<li class="active"><a style="color:white;">Home</a></li>
+					<li><a href="/retailerPost" style="color:white;">Post</a></li>
+					<li><a href="/retailerArchive" style="color:white;">Archive</a></li>
+						<li><a href="/retailerNotification" style="color:white;">Notification</a><span id="notificationSpan" align="center" style="display:none">0</span></li>
+				</ul>
+			
+			</div>		
+		</div>
+	</nav>
+	
+<!-- BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY-->
+			
+		<!--PROFILE AT SIDENAV-->	
+		<div id="mySidenav" class="sidenav" style="margin-top:40px; margin-left:-20px;">
+		  <a><img class="media-object dp" src="<%= ProfilePic %>" style="width:150px; height:150px; border-radius:15px;float:none; margin:0 auto;" id="profilePicture"></a>
+		  <a><h3 class="media-heading" style="text-align:center" id="shopName"><%= ShopName %></h3></a>
+		  <a><h4 style="color:grey;text-align:center;" id="userEmail"><%= Retailer_Email %></h4></a>
+		  <a><h5 id="shop_Category" style="text-align:center;"><%= shop_Category %></h5></a>
+		  <a><h5 id="shopLocation" style="text-align:center;"><%= shopLocation %></h5></a>
+		  <a><h5 id="Charges" style="text-align:center;"></h5></a>
+		</div>		
+			
+		<div id="main" style="margin-top:50px; display: none" id="retailerBody">	
+			<!-- <div class="container" align="center" style="margin-bottom: 20px;">
+				<div class="container_fluid">
+					<div class="row" style="border-color:#B45048; min-width:380px; max-width:970px; height: 30px;">
+						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 active" style="line-height: 30px; color:white" id="myPostNav" onclick="navbarLink('myPostNav')">My Post</div>
+						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="line-height: 30px; color:white" id="collaborateNav" onclick="navbarLink('collaborateNav')">Collaborated Post</div>
+					</div>
+				</div>
+			</div> -->
+
+			<div class="container" align="center" style="margin-bottom: 20px; min-width:380px; max-width:1000px;">
+				<div class="container-fluid" style="border-radius: 5px;"> <!--background: linear-gradient(black, white);-->
+					<div class="row" style="border-color:#B45048; height: 30px;">
+						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 active" style="line-height: 30px; color:white" id="myPostNav" onclick="navbarLink('myPostNav')">My Post</div>
+						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="line-height: 30px; color:white" id="collaborateNav" onclick="navbarLink('collaborateNav')">Collaborated Post</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="container" style="min-width:380px; max-width:1000px;" id="MyPostDiv">
+				<div class="container-fluid" style="box-shadow: 5px 5px 20px #282828; background-color: white; border-radius: 5px;"> <!--background: linear-gradient(black, white);-->
+				
+					<div class="row">
+						<div class="col-xs-12 col-sm-12">
+							<h3 style="margin-left:5%;">Post Preview</h3>						
+						</div>
+					</div>
+
+					<div id="loadercontainerPost">
+						<div class="loader"></div>
+					</div>
+				
+					<div class="panel-body">
+						<div class="container-fluid" style="display: inline-block; width:100%; margin:auto;">
+							<div class="row" id="myPostField" style="display: inline-block; width:100%; margin-left:-5px;">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+						<div class="container" style="min-width:380px; max-width:1000px; display: none" id="MyCollaborationDiv">
+				<div class="panel panel-primary" style="box-shadow: 5px 5px 20px #282828;"> <!--background: linear-gradient(black, white);-->
+				
+					<div class="row">
+						<div class="col-xs-12 col-sm-12">
+							<h3 style="margin-left:5%;">Collaboration</h3>						
+						</div>
+					</div>
+
+					<div id="loadercontainerCollab">
+						<div class="loader"></div>
+					</div>
+				
+					<div class="panel-body">
+						<div class="container-fluid" style="display: inline-block; width:100%; margin:auto;">
+							<div class="row" id="myCollabField" style="display: inline-block; width:100%; margin-left:-5px;">
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--div class="container">
+				<div class="panel panel-primary">
+					<div class="panel panel-heading">
+						Testing 
+					</div>
+				</div>
+			</div-->
+
+			<!-- ###### MODAL QR ###### -->
+			<div class="modal fade" id="myModal" role="dialog" >
+				<div class="modal-dialog modal-sm">
+									
+					<!-- Modal content-->
+					<div class="modal-content">
+						<!--div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<strong><h4 class="modal-title" id="">QR Code</h4></strong>
+						</div-->
+						<div class="modal-body">
+						
+							<div class="row" style="margin-left:5px; margin-right:5px;">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<strong><h4 class="modal-title" id="">QR Code</h4></strong>
+							</div>
+							
+							<hr style="margin-top:-1px; margin-bottom:-1px;">
+							
+							<div class="row">
+								<div class="container-fluid">
+									<div  id="QRCode" style="background-color:black; display: table; margin: 0 auto;">
+															
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+			<!-- ###### EXCEED LIMIT ###### -->
+			<div class="modal fade" id="ExceedLimit" role="dialog" >
+				<div class="modal-dialog">			
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-body">
+					
+							<div class="modal-content" id="modalTitleBody" style="background-color:#f44e42; box-shadow:none">
+								<div class="modal-body" >
+									<button type="button" class="btn btn-circle btn-xl close" data-dismiss="modal"><i class="glyphicon glyphicon-remove-circle"></i></button>
+									<h4 class="modal-title" style="font-weight:bold; font-size:20px; color:white;" id="modalTitle">Invalid Action!</h4>
+								</div>
+							</div>
+						
+							<div class="modal-body" >
+								Post Advertisment exceed limit
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	<script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
+<!-- 	<script src="js/RetailerValidate.js"></script> no using liao -->
+	<script src="js/SignInValidate.js"></script>
+	<script src="js/Bootstrap-Confirmation.js"></script>
+	
+</body>
+</html>

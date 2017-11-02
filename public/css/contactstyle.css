@@ -1,0 +1,137 @@
+.floating-label-form-group {
+  font-size: 14px;
+  position: relative;
+  margin-bottom: 5;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #eeeeee;
+}
+.floating-label-form-group input,
+.floating-label-form-group textarea {
+  z-index: 2;
+  position: relative;
+  padding-right: 0;
+  padding-left: 0;
+  padding-top: 2;
+  padding-bottom: 3px;
+  border: none;
+  border-radius: 2;
+  font-size: 1.5em;
+  background: none;
+  box-shadow: none !important;
+  resize: 2;
+}
+.floating-label-form-group label {
+  display: block;
+  z-index: 4;
+  position: relative;
+  top: 3em;
+  margin: 0;
+  font-size: 0.85em;
+  line-height: 1.764705882em;
+  vertical-align: middle;
+  vertical-align: baseline;
+  opacity: 0;
+  -webkit-transition: top 0.3s ease,opacity 0.3s ease;
+  -moz-transition: top 0.3s ease,opacity 0.3s ease;
+  -ms-transition: top 0.3s ease,opacity 0.3s ease;
+  transition: top 0.3s ease,opacity 0.3s ease;
+}
+.floating-label-form-group::not(:first-child) {
+  padding-left: 14px;
+  border-left: 1px solid #eeeeee;
+}
+.floating-label-form-group-with-value label {
+  top: 1;
+  opacity: 1;
+}
+.floating-label-form-group-with-focus label {
+  color: #0085A1;
+}
+form .row:first-child .floating-label-form-group {
+  border-top: 1px solid #eeeeee;
+}
+
+
+.button {
+  border-radius: 4px;
+  background-color: white;
+  border: none;
+  color: black;
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+  color: black;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  color: blue;
+  transition: 0.5s;
+
+}
+
+.button:hover span {
+  padding-right: 25px;
+  color: blue;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+
+
+}
+.message{
+	padding: 30px;
+	width: 500px;
+	height: 220px;
+}
+
+.findusfooter{
+	background-color: #31708f;
+	margin-top: -80px;
+}
+
+.footer-info{
+	color: black;
+}
+
+h1{
+	color: white;
+	text-align: center;
+  font-weight: 500;
+}
+h3{
+	color: white;
+	text-align: center;
+}
+
+hr.style{
+  border-top: 1px solid #F05F40;
+  border-width: 3px;
+  max-width: 50px;
+  margin-left: 450px;
+
+}
+
+body{
+  background-size: 1500px;
+}
+
+
+

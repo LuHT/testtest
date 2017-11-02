@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>retailerNotification</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/bootstrap-select.min.css">
+	<link rel="stylesheet" href="css/navbar.css">
+	<link rel="stylesheet" href="css/organizerNotification.css">
+	<link rel="stylesheet" href="css/loading.css">
+	<link rel="stylesheet" href="css/retailerStyle.css">
+	<style> .pac-container { z-index: 10000; } </style>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
+	<script src="js/bootstrap-select.min.js"></script>
+	<script src="js/notification.js"></script>
+	<script src="js/retailerAddDiv.js"></script>
+	
+</head>
+
+<body style="margin-top:80px; background-color: #111523; height:100%" onload="init()">
+	
+<!--Navigation bar-->
+	<nav class="navbar navbar-default navbar-fixed-top" style="background-color:#640F08; border-color:#640F08; box-shadow: 1px 0px 10px #640F08;" id="navbarhome">
+		<div class="container-fluid">
+		
+			<ul class="nav navbar-nav pull-right">
+				<div class="row clearfix" style="margin-top:10px;">
+					<div class="col-xs-4">
+						<li><a id="notificationLinkActive" style="margin-top:-5px; background-color:#640F08; color:white" class="btn btn-default btn-md glyphicon glyphicon-bell"></a></li>
+						<span id="notificationSpan" align="center" style="display:none; border-style: solid; border-width: 0.5px; margin-left:-8px; margin-top:-27px;">0</span>
+					</div>
+					 
+					<div class="col-xs-8">
+						<li><a onclick="SignOut()" id="signout" style="padding:10px;"><span style="margin-top:2px; font-size: 20px;" class="glyphicon glyphicon-off"></span></a></li>
+					</div>
+				</div>
+			</ul>
+		
+			<!-- LOGO -->
+			<div class="navbar-header">
+				<a href="/retailer" class="navbar-brand" style="color:white;">RightHere</a>
+				<span class="btn btn-default btn-md glyphicon glyphicon-menu-down navbar-toggle pull-left" data-toggle="collapse" data-target="#navbar" style="z-index:10000; margin-top:11px; background-color:#640F08; color:white"></span>
+			</div>
+	
+			<!-- Menu Items -->
+			<div class="collapse navbar-collapse" id="navbar">
+				<ul class="nav navbar-nav">
+					<li><a href="/retailer" style="color:white;">Home</a></li>
+					<li><a href="/retailerPost" style="color:white;">Post</a></li>
+					<li><a href="/retailerArchive" style="color:white;">Archive</a></li>
+				</ul>
+			</div>		
+		</div>
+	</nav>
+	
+	<div class="container" id="bodyRetailerNotification" style="display: none">
+		<div clas="container-fluid">
+			<h3 style="color:white">My Notification</h3>
+			<hr>
+			<div class="container-fluid" id="notificationDIV">
+				<div class="loader" id="loader"></div>
+				<!-- <div class="notification new" data-toggle="modal" data-target="#showEvent">
+					<span class="spanNotif"><a>UNIQLO</a> invited you to join an Event</span>
+				</div> -->
+			</div>
+		</div>
+	</div>
+
+	<!-- ###### EVENT MODAL ###### -->
+	<div class="modal fade" id="showEvent" role="dialog">
+		<div class="modal-dialog">
+									
+			<!-- Modal content-->
+			<div class="modal-content" style="max-width:500px;">
+				<div class="modal-header" style="background-color: #AA3939; border-radius: 5px; margin:5px; color:white">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<strong><h4 class="modal-title" id="">Event Info</h4></strong>
+				</div>
+
+				<div id="loadercontainer">
+					<div class="loader"></div>
+				</div>
+
+				<div class="modal-body" id="modalContent">
+					<!-- style="overflow-x:auto; height: 500px;" -->
+					<div class="container-fluid">
+						
+						<h4 id="orgName" style="width:25%; height:auto; margin-bottom:-3px;"><strong>Organizer Name</strong></h4>
+						<img id="orgProfPic" src="" style="width:25%; min-width: 50px; height:auto;" alt="organizerProfile">
+						
+							<h5 id="evtTitle">Title</h5>
+							<h6 id="orgAdd">address</h6>
+							<h6 id="evtStartDate">Time</h6>
+							<h6 id="evtEndDate">Time</h6>
+							<h6 id="eventDesc">Description</h6>
+
+						
+							
+						<br>
+					</div>
+					<div class="container-fluid">
+						<div class="row" align="center">
+							<img src="" class="img-responsive" id="eventPoster" style="width:100%; height:auto" alt="Image">
+						</div>
+						
+						<div class="row" id="collabRow">
+							<hr style="border-top: 3px double #8c8b8b;">
+							<h5><strong style="color:#819fa8">Collaborators</strong></h5>
+							<div class="container-fluid" id="collabView" style="display: inline-block">
+								
+							</div>
+						</div>
+						<br>
+
+						<div class="row" id="ticketRow" style="background-color: #c7dae0">
+							<h5><strong style="color:white">Ticket/s</strong></h5>
+							<div class="container-fluid" id="ticketField">
+							</div>
+						</div>
+						<br>
+
+						<div class="row" id="rewardRow">
+							<div class="container-fluid" id="rewardField">
+
+							</div>
+						</div>
+
+						<div class="container-fluid" id="buttonHandling">
+							<button class="btn btn-success pull-right" data-dismiss="modal" id="acceptBtn">Accept</button>
+							<button class="btn btn-danger pull-left" data-dismiss="modal" id="declineBtn">Decline</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- ###### EVENT MODAL 2 ###### -->
+	<div class="modal fade" id="showEventApplication" role="dialog">
+		<div class="modal-dialog">
+									
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header" style="background-color: #AA3939; border-radius: 5px 5px 0px 0px; color:white">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<strong><h4 class="modal-title" id="requester">Request Form</h4></strong>
+				</div>
+
+				<div id="loadercontainers">
+					<div class="loader"></div>
+				</div>
+
+				<div class="modal-body" id="modalContents" style="display:none">
+					<div class="container-fluid" align="center">
+						<img id="reqProfPic" src="" style="width:35%; min-width: 50px;" alt="reqProfile">
+
+							<div class="container-fluid">
+								<h5 id="reqName">Organizer Name</h5>
+							</div>
+						<br>
+					</div>
+
+					<div class="container-fluid">
+						<hr style="border-top: 3px double #8c8b8b;">
+							<h4>Event Details</h4>
+						<div class="container-fluid">	
+							<div class="row" id="reqDesc">
+								Event Description here
+							</div>
+							<div class="row" id="reqPoster">
+								Picture here
+							</div>
+							<div class="row" id="reqDates">
+								<h6 id="startdate"></h6>
+								<h6 id="enddate"></h6>
+							</div>
+						</div>
+
+						<div class="container-fluid" id="reqCollabRow">
+							<hr style="border-top: 3px double #8c8b8b;">
+							<h5><strong>Current Collaborators</strong></h5>
+							<div class="container-fluid" id="reqCollabView" style="display: inline-block">
+								
+							</div>
+							<hr style="border-top: 3px double #8c8b8b;">
+						</div>
+
+						<div class="container-fluid" id="reqApplicationButton">
+							<button class="btn btn-success pull-right" id="reqAcceptBtn" data-dismiss="modal">Accept</button>
+							<button class="btn btn-danger pull-left" id="reqDeclineBtn" data-dismiss="modal">Decline</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- ###### REQUEST POST SUBEVENT ###### -->
+	<div class="modal fade" id="showSubEvent" role="dialog" style=" overflow-y:scroll ">
+		<div class="modal-dialog">
+									
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header" style="background-color: #AA3939; border-radius: 5px 5px 0px 0px; color:white">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<strong><h4 class="modal-title">Sub Event Post checking</h4></strong>
+				</div>
+
+				<div id="subeventloader">
+					<div class="loader"></div>
+				</div>
+
+				<div class="modal-body" id="subEventModalContent" style="display: none">
+					
+					
+						<div class="container-fluid" style="margin-bottom: 20px;">
+							<div class="container-fluid" style="border-radius: 5px; border-style: solid; border-width: 0.5px; border-color: black">
+								<div class="row" style="margin-left: 5px;">
+									<h4 style="color: #640F08"><strong>My Post</strong></h4>
+								</div>
+								<hr style="border-top: -3px double #8c8b8b; margin-top: -5px; margin-bottom: -5px">
+								<div class="row" style="margin-bottom: -15px; margin-top: 10px">
+									<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="margin-top: 5px;">
+										<img id="ProfPic" src="" style="border-radius:50%; width:60px; height:60px; margin-top:-8px; box-shadow: inset 3px 3px 10px #000000;" alt="organizerProfile"/>
+									</div>
+									<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" style="margin-left: -10px;">
+										<div style="display:inline-block;">
+											<h4 id="Name"  style="font-size:13px; margin-left:20px; margin-top:5px; margin-bottom:-8px;">Organizer Name</h4>
+											<h5 id="Add" style="font-size:10px; margin-left:20px;">address</h5>	
+										</div>
+									</div>
+								</div>
+								<div class="container-fluid" align="center" style="margin-top: 10px;">
+									<strong><h3  style="font-size:15px; margin-left:20px; margin-top:5px; margin-bottom:-8px;" id="evnTitle">Title</h3></strong>
+								</div>
+
+								<br>
+
+								<div id="mypostInformation" class="row" style="display:none">
+									<div class="scrollbar" id="style-2" style="overflow-y: scroll; height:450px; margin-right: -0px;">
+										<hr style="border-top: -3px double #8c8b8b; margin-top: -5px; margin-bottom: -5px">
+										<h4 style="background-color: #819fa8; text-align: center; color:white; padding-top:10px; padding-bottom:10px;"><strong>Event Information</strong></h4>
+										<div class="container-fluid">
+											<h6 id="mainDesc">Event Description: </h6>
+											<h6 id="StartDate">Time</h6>
+											<h6 id="EndDate">Time</h6>
+										</div>
+
+										<div align="center">
+											<img src="" class="img-responsive" id="subeventPoster" style="width:80%; height:auto; margin-bottom: 20px;" alt="Image">
+										</div>
+
+										<div class="container-fluid" style="margin-top:15px; background-color: #c7dae0">	
+											<h4 style="color:white;">Collaborators</h4>
+									  		<div class="container-fluid" align="center" id="subcollabView">
+									  		</div>
+									  	</div>
+
+									  	<div class="container-fluid" id="subticketRow" style="margin-top:15px; background-color: white">
+											<h5 style="color:#819fa8;"><strong>Ticket/s</strong></h5>
+											<div class="container-fluid" id="subticketField">
+											</div>
+										</div>
+
+										<div class="container-fluid" style="margin-top:15px; background-color: #c7dae0">
+											<h4 style="color:white;">Reward/s</h4>
+										
+									  		<div class="container-fluid" align="center" id="subrewardRow">
+									  		</div>
+									  	</div>
+									</div>
+								</div>
+
+								<div>
+									<a id="showMyPostLink" class="pull-right" style="margin-bottom: 20px;" onclick="showMyPost()">Show more details</a>
+								</div>
+							</div>
+						</div>
+
+						<div class="container-fluid">
+							<div class="container-fluid" style="border-radius: 5px; border-style: solid; border-width: 0.5px; border-color: black">
+								<div class="row" style="margin-bottom: -15px; margin-top: 10px">
+									<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="margin-top: 5px;">
+										<img id="requestProfPic" src="" style="border-radius:50%; width:60px; height:60px; margin-top:-8px; box-shadow: inset 3px 3px 10px #000000;" alt="organizerProfile">
+									</div>
+									<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+										<div style="display:inline-block;">
+											<h5 id="requestName" style="font-size:13px; margin-left:20px; margin-top:5px; margin-bottom:-8px;">Organizer Name</h5>
+											<h6 id="requestAdd" style="font-size:10px; margin-left:20px;">address</h6>	
+										</div>
+									</div>
+								</div>
+								<hr style="border-top: 3px double #8c8b8b;">
+								<div style="margin-top: -10px;">
+									<h6 id="subeventDesc">Description</h6>
+								</div>
+								<div align="center">
+									<img src="" class="img-responsive" id="subeventRePoster" style="width:100%; height:auto; margin-bottom: 20px;" alt="Image">
+								</div>
+
+								<div class="container-fluid" align="center" style="margin-bottom: 20px;">
+									<div class="row">
+										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="border-radius: 5px 0px 0px 5px; padding-top: 5px; padding-bottom: 5px;" data-toggle="modal" data-target="#declineModal" id="DeclinePost">
+											Decline
+										</div>
+										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="border-radius: 0px 5px 5px 0px; padding-top: 5px; padding-bottom: 5px;" id="AcceptPost">
+											Accept
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--Modal for decline authentication-->
+	<div class="modal fade" id="declineModal" role="dialog" style="box-shadow: 0 0 50px black">
+		<div class="modal-dialog">			
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="container-fluid" style="margin-left:10px; margin-right:10px; margin-top:10px; margin-bottom:10px;">
+					<div class="row">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<strong><h4 class="modal-title" id="shopname">Decline Retailer Registration</h4></strong>
+					</div>
+					<br>
+					<div class="row">
+						<div class="container-fluid">
+							<span><strong>Subject</strong>: Decline of sub event post</span><hr style="margin-bottom:-3px;">
+							<br>
+							<div class="container-fluid">
+								<label>Reasons:</label>
+								<textarea class="form-control" id="declineTextarea" style="resize:vertical; overflow-x:hidden"></textarea>
+								<span id="sendEmailSpan" style="color:red; margin-left:5px;"></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="container-fluid">
+							<button class="btn btn-warning" id="declinePostSubmit" data-dismiss="modal">Submit</button>
+						</div>
+					</div>
+					<br>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- ###### SUBEVENT DECLINED ###### -->
+	<div class="modal fade" id="showDeclinedSubEvent" role="dialog" style=" overflow-y:scroll ">
+		<div class="modal-dialog">
+									
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header" style="background-color: #AA3939; border-radius: 5px 5px 0px 0px; color:white">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<strong><h4 class="modal-title">Sub Event</h4></strong>
+				</div>
+
+				<div id="mainsubeventloader">
+					<div class="loader"></div>
+				</div>
+
+				<div class="modal-body" id="mainsubEventModalContent" style="display:none">
+					
+					<div id="previewPos">
+						<div class="container-fluid" style="margin-bottom: 20px;">
+							<div class="container-fluid" style="border-radius: 5px; border-style: solid; border-width: 0.5px; border-color: black">
+								<div class="row" style="margin-left: 5px;">
+									<h4 style="color: #640F08"><strong>Main Event</strong></h4>
+								</div>
+								<div id="declinePostInformation" class="row" style="display:none">
+								<hr style="border-top: -3px double #8c8b8b; margin-top: -5px; margin-bottom: -5px">
+								<div class="row" style="margin-bottom: -15px; margin-top: 10px">
+									<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="margin-top: 5px;">
+										<img id="mainProfPic" src="" style="border-radius:50%; width:60px; height:60px; margin-top:-8px; box-shadow: inset 3px 3px 10px #000000;" alt="organizerProfile"/>
+									</div>
+									<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" style="margin-left: -10px;">
+										<div style="display:inline-block;">
+											<h4 id="MainName"  style="font-size:13px; margin-left:20px; margin-top:5px; margin-bottom:-8px;">Organizer Name</h4>
+											<h5 id="MainAdd" style="font-size:10px; margin-left:20px;">address</h5>	
+										</div>
+									</div>
+								</div>
+								<div class="container-fluid" align="center" style="margin-top: 10px;">
+									<strong><h3  style="font-size:15px; margin-left:20px; margin-top:5px; margin-bottom:-8px;" id="mainEvnTitle">Title</h3></strong>
+								</div>
+
+								<br>
+
+								
+									<div class="scrollbar" id="style-2" style="overflow-y: scroll; height:450px; margin-right: -0px;">
+										<hr style="border-top: -3px double #8c8b8b; margin-top: -5px; margin-bottom: -5px">
+										<h4 style="background-color: #819fa8; text-align: center; color:white; padding-top:10px; padding-bottom:10px;"><strong>Event Information</strong></h4>
+										<div class="container-fluid">
+											<h6 id="mainEventDesc">Event Description: </h6>
+											<h6 id="MainStartDate">Time</h6>
+											<h6 id="MainEndDate">Time</h6>
+										</div>
+
+										<div align="center">
+											<img src="" class="img-responsive" id="MainEventPoster" style="width:80%; height:auto; margin-bottom: 20px;" alt="Image">
+										</div>
+
+										<div class="container-fluid" style="margin-top:15px; background-color: #c7dae0">	
+											<h4 style="color:white;">Collaborators</h4>
+									  		<div class="container-fluid" align="center" id="mainsubcollabView">
+									  		</div>
+									  	</div>
+
+									  	<div class="container-fluid" id="subticketRow" style="margin-top:15px; background-color: white">
+											<h5 style="color:#819fa8;"><strong>Ticket/s</strong></h5>
+											<div class="container-fluid" id="mainsubticketField">
+											</div>
+										</div>
+
+										<div class="container-fluid" style="margin-top:15px; background-color: #c7dae0">
+											<h4 style="color:white;">Reward/s</h4>
+										
+									  		<div class="container-fluid" align="center" id="subrewardRow">
+									  		</div>
+									  	</div>
+									</div>
+								</div>
+
+								<div>
+									<a id="showDeclinePostLink" class="pull-right" style="margin-bottom: 20px;" onclick="declineShowMore()">Show more details</a>
+								</div>
+							</div>
+						</div>
+
+						<div class="container-fluid">
+							<div class="container-fluid" style="border-radius: 5px; border-style: solid; border-width: 0.5px; border-color: black">
+								<div class="row" style="margin-left: 5px;">
+									<h4 style="color: #640F08"><strong>Sub Event Request Posts</strong></h4>
+								</div>
+
+								<div class="container-fluid" style="border-radius: 5px; background-color: #ff5c33">
+									<h4 style="margin-bottom: -5px; color:white"><strong>Declined Reasons:</strong></h4>
+									<h5 style="color: white" id="declinedreasons"></h5>
+								</div>
+
+								<!-- <hr style="border-top: -3px double #8c8b8b; margin-top: -5px; margin-bottom: -5px"> -->
+								<div class="row" style="margin-bottom: -15px; margin-top: 10px">
+									<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="margin-top: 5px;">
+										<img id="subProfPic" src="" style="border-radius:50%; width:60px; height:60px; margin-top:-8px; box-shadow: inset 3px 3px 10px #000000;" alt="organizerProfile">
+									</div>
+									<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+										<div style="display:inline-block;">
+											<h5 id="subName" style="font-size:13px; margin-left:20px; margin-top:5px; margin-bottom:-8px;">Organizer Name</h5>
+											<h6 id="subAdd" style="font-size:10px; margin-left:20px;">address</h6>	
+										</div>
+									</div>
+								</div>
+								<hr style="border-top: 3px double #8c8b8b;">
+								<div style="margin-top: -10px;">
+									<h6 id="subDesc" style="font-size:10px; margin-left:20px;">address</h6>	
+								</div>
+								<div align="center">
+									<img src="" class="img-responsive" id="declinedPoster" style="width:100%; height:auto; margin-bottom: 20px;" alt="Image">
+								</div>
+
+								<div class="container-fluid" align="center" style="margin-bottom: 20px;">
+									<button class="btn btn-success" id= "Resubmit" onclick="submitSubEvent()">Resubmit</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+						<div class="container-fluid" id="repostEvent" style="display:none">
+						<form id="subevent_form" method="POST">
+							<div class="container-fluid" style="border-style: solid; border-width: 0.5px; border-radius: 5px;">
+								
+									<label>Advertisement Picture:</label>
+										<input type="file" id= "subevent_img" name="subevent_img" class="form-control"/>
+										<div class="container-fluid" id="imageDIV">
+											<img id="imgHolder" src="" style="width:100%; height:auto;">
+										</div> 
+										<!--SHOPNAME COMPULSORY-->
+										<div class="shopname">
+										<label for="Shopname">Name:</label>
+										<input type='text' class="form-control" name ="organizer_name" id="shopName" value="<%= ShopName %>" readonly>
+										<br>
+							 			</div>
+										<!--SHOPNAME CATEGORY-->
+										<div class="category">
+											<label for="shopCategory">Shop Category:</label>
+											<div id="AddshopCategoryBox" style="display:none;">
+												<input type='text' class="form-control" id="AddshopCategory" name = "AddCategory" placeholder='Input New Category' >
+											</div>
+
+										<div  id="DefaultshopCategoryBox" >
+											<select type='text' class="form-control" id="shopCategory"  name = "category" value="<%= shopCategory %>">
+											<option id = "selectedOp" value="selected"  selected="true" disabled="true">Select Shop Category from you've used in the past</option>
+									 		<%for(var x = 0 ; x <= shopCategory.length-1; x++ ) { %>
+												<option id = "<%=x+1 %>"  value="<%=shopCategory[x] %>"><%=shopCategory[x]%></option>
+											<% } %>
+											</select>
+										</div>
+										<a style="cursor:pointer" onclick="ShowAddshopCategoryBox()" id="AddshopCategoryL">Add New Category</a>
+										<br>
+										<br>
+										</div>
+										<!--Event Previous LOCATION COMPULSORY-->
+										<div>
+										<label for="location">Location:</label>
+								 		<div id="PreviousLocationBox" >
+											<select type='text' class="form-control" id="PreviousLocation" name = "PreviousLocation" value="<%= shopCategory %>">
+												<option id = "selectedOp2" value="selected" selected="true" disabled="true">Select Shop Category from you've used in the past</option>
+												<%for(var x = 0 ; x <= shopCategory.length-1; x++ ) { %>
+												<option id = "<%=x+1 %>" value="<%=shopCategory[x] %>"><%=shopCategory[x]%></option>
+												<% } %>
+											</select>
+										</div>
+										<!--Event New LOCATION COMPULSORY-->
+										
+											<input type="text" id="AutoSearch" class="form-control" style="display:none" name="address" placeholder="Specify Where it's Held">
+										
+
+										<div id="locationAdd" style="display:none;" class="panel panel-default panel-body">
+											<div id="mapss" style="padding-top: 60.25%;"  class="panel panel-default panel-body" ></div> 
+												<a style="cursor:pointer" onclick="Reloction()" id="Relocation">Re-location</a>
+										</div>
+										<a style="cursor:pointer" onclick="ShowlocationBoxes()" id="AddLocation">Add New Location</a>
+												  
+										<div class="panel panel-default" id="locationDropDown" style="display:none;">
+											<div class="panel-body" id="shopLocationDiv"></div>
+										</div>
+										<br>
+									<label>Description:</label>
+										<input type="text" name="description" class="form-control"/>
+									<div class="container-fluid pull-right" style="margin-bottom:10px; margin-top: 10px;">
+										<button class="btn btn-danger" onclick="cancelresubmission()">Cancel</button>
+										<button class="btn btn-success" id="subevent_btn">Submit</button>
+									</div>
+								
+							</div>
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrBtMeE1zR3A61Pn9oqW8fcKx5kV5gBI8&libraries=places&callback=getLocation"
+    async defer></script> 
+
+</body>
+<footer>
+	FOOOOOOOOOooooooooooooooooter
+</footer>
+
+</html>

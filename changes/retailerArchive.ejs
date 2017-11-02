@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>RightHere Archive Post</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/retailerStyle.css">
+	<link rel="stylesheet" href="css/homeStyle.css">
+	<link rel="stylesheet" href="css/loading.css">
+	<link rel="stylesheet" href="css/navbar.css">
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="js/navbaranim.js"></script>
+	
+	<script type="text/javascript" src="js/qrcode.js"></script>
+	
+	
+	
+	
+	</head>
+<body style="background-color:#707070;">
+	
+<!--NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR NAVIGATION BAR-->
+	
+	<nav class="navbar navbar-default navbar-fixed-top" style="background-color:#B45048; border-color:#B45048;" id="navbarhome">
+		<div class="container-fluid">
+			
+			<ul class="nav navbar-nav pull-right">
+				<li><a onclick="Signout()" id="signout" style="color:white;"><span>Log Out</span></a></li>
+			</ul>
+			
+			<!-- LOGO -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+					<span class=" glyphicon glyphicon-menu-down fa-lg" style="color:white;"></span>
+				</button>
+				<a onclick="openNav()" class="navbar-brand" style="color:white;"><span>My Profile</span></a>
+			</div>
+	
+			<!-- Menu Items -->
+			<div class="collapse navbar-collapse" id="navbar">
+				<ul class="nav navbar-nav">
+					<li><a href="/retailer" style="color:white;">Home</a></li>
+					<li><a style="color:white;">Post</a></li>
+					<li class="active"><a class="active" style="color:white;" id>Archive</a></li>
+				</ul>
+			
+			</div>		
+		</div>
+	</nav>
+	
+<!-- BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY BODY-->	
+			
+		<div id="main" class="container-fluid" style="margin-top:50px;">
+			<div class="panel panel-default">
+				<div class="panel-body" style="height:500px;">
+					<div class="row">
+						<div class="col-xs-12 col-sm-12">
+							<h3 style="margin-left:5%;">Post Preview</h3>						
+						</div>
+					</div>
+
+					<div id="loadercontainer">
+						<div class="loader"></div>
+					</div>
+				
+					<div class="panel-body">
+						<div class="container-fluid" style="display: inline-block;">
+							<div class="row" id="container_row">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+	<script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
+	<script src="js/SignInValidate.js"></script>
+	<script src="js/Bootstrap-Confirmation.js"></script>
+	
+</body>
+</html>

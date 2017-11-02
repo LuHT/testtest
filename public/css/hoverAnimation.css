@@ -1,0 +1,9 @@
+#footerDesign a{
+	transition: 0.7s ease-out;
+}
+
+#footerDesign a:hover{
+	color: black;
+	text-decoration: none;
+	text-shadow: 2px 2px 8px #e5474f;
+}

@@ -1,0 +1,118 @@
+body {
+	background: #282828 !important;	
+}
+
+#headerTitle{
+	margin-top: 0px;
+}
+
+
+/*Admin Panel top status statistics*/
+
+/*Panel Custom*/
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+
+/*Retailer Panel Adjustment*/
+#retailerButton{
+	background-color: #a8e7ff;
+}
+
+#panelheadingRetailer{
+	background-image: none;
+	background-color: #a8e7ff
+}
+/*End retailer panel adjustment*/
+
+/*User panel adjustment*/
+#userButton{
+	background-color: #ffea75;
+}
+
+#panelheadingUser{
+	 background-image: none;
+	background-color: #ffea75
+}
+/*End user panel adjustment*/
+
+
+/*Ads panel adjustment*/
+#adsButton{
+	background-color: #ff8c8c;
+}
+
+#panelheadingAds{
+	background-image: none;
+	background-color: #ff8c8c
+}
+/*End ads panel adjustment*/
+
+
+/*TABLE ADJUSTMENTS*/
+.table-hover tbody tr:hover td {
+    background-color: #4b5566;
+	color:white;
+	transition:0.3s;
+}
+
+.table-fixed thead {
+  width: 100%;
+}
+.table-fixed tbody {
+  height: 230px;
+  overflow-y: auto;
+  width: 100%;
+}
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+  display: block;
+}
+.table-fixed tbody td, .table-fixed thead > tr> th {
+  float: left;
+  border-bottom-width: 0;
+}
+
+#viewHover:hover{
+	color:white;
+	transition:0.5s;
+}
+
+/*
+.fade-scale {
+  transform: scale(0);
+  opacity: 0;
+  -webkit-transition: all .25s linear;
+  -o-transition: all .25s linear;
+  transition: all .25s linear;
+}
+
+.fade-scale.in {
+  opacity: 1;
+  transform: scale(1);
+}*/
+
+.modal {
+  text-align: center;
+  padding: 0!important;
+}
+
+.modal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -4px; /* Adjusts for spacing */
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Admin - View Retailer</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/adminViewStyle.css">
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" rel="stylesheet"/>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="js/adminAllRetailer.js"></script>
+	<script src="js/smtp.js"></script>
+	
+</head>
+
+<body onload="getKey()"> 
+
+	<!-- ######################## Navigation bar ######################## -->
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<ul class="nav navbar-nav pull-right">
+				<li><a onclick="signout()">Log Out</a></li>
+			</ul>
+			
+			<!-- LOGO -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+					<span class=" glyphicon glyphicon-menu-down fa-lg" style="color:white;"></span>
+				</button>
+				<a href="#" class="navbar-brand" >Admin Panel>Retailer</a>
+			</div>
+	
+			<!-- Menu Items -->
+			<div class="collapse navbar-collapse" id="navbar">
+				<ul class="nav navbar-nav">
+					<li><a href="admin.html">Home</a></li>
+					<li class="active"><a>Retailers</a></li>
+					<li><a href="adminViewUser.html">Users</a></li>
+					<li><a href="adminViewAds.html">Ads</a></li>
+				</ul>
+			</div>		
+		</div>
+	</nav>
+	
+	
+	<!-- ######################## VIEW LIST OF RETAILERS ######################## -->
+	<div class="container">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-xs-12 col-sm-12">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+							<div class="input-group-btn">
+								<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<br>
+				<div class="panel panel-default">
+                    <div class="panel-body table-responsive">
+						<table id="table" class="table table-bordered table-hover" style="background-color:white;">
+							<thead>
+								<tr>
+									<th>Shopname</th>
+									<th>Location</th>
+									<th>Email</th>
+									<th>Phone No.</th>
+									<th>Password</th>
+									
+								</tr>
+							</thead>
+							
+							<tbody id="allRetailerTable">
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" role="dialog">
+		<div class="modal-dialog" style="min-width:500px;">						
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+					<button class="btn btn-primary btn-sm pull-right"><span class="glyphicon glyphicon-pencil fa-lg" style="color:white;"></span></button>
+						<div>
+							<img src="img/profile/download.png" class="img-responsive" style="max-width:100px; min-width:100px;" alt="Image" id="profilePic">							
+						</div>
+						
+						<span>
+							<h5><strong>Shopname:</strong><span id="sShopname"></span></h5>
+							<h5><strong>Category:</strong><span id="scategory"></span></h5>
+							<h5><strong>Shop Location:</strong><span id="slocation"></span></h5>
+							<h5><strong>Email Address:</strong><span id="semail"></span></h5>
+							<h5><strong>Phone Number:</strong><span id="sphone"></span></h5>
+						</span>
+					</div>
+						
+						<hr>
+						
+					<div class="container-fluid">
+						<label for="sendEmail">Send Email</label>
+						<textarea  class="form-control" id ="description" style="max-width:100%; min-width:100%;" type='text' name='description' placeholder='Description...'></textarea>
+						<button class="btn btn-primary btn-xs pull-right" style="margin-top:5px; margin-bottom:5px;" onclick="testSendEmail()">SEND</button>
+					</div>	
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

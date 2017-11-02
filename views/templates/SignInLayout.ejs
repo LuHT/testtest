@@ -1,0 +1,12 @@
+<a id="signin" onclick="signinContainer()" style="color:white; margin-right:10px;">Sign In<span class="caret"></span></a>
+					 <div class="dropdown-content" id="signinDropdown" style="display:none">
+							<h6><input type="text" style="width:300px;" placeholder="email" id="emailbox"  onblur="emailBoxValidation()" onkeypress="emailBoxValidation()" onkeydown="emailBoxValidation()"></input></h6>
+							<h6><input type="password" style="width:300px;" placeholder="password" id="passwordbox"></input></h6>
+							<h6><button class="btn btn-primary" style="margin-top:10px; width:300px" onclick="validate()" id="loginbtn">Login<span id="signLoader" class="glyphicon glyphicon-refresh glyphicon-spin pull-right" style="visibility:hidden"></span></button></h6>
+							<div class="container-fluid" style="text-align:center">
+								<p><blink id="signinMessage"></blink></p>
+							</div>
+
+							<h4 align="center">Not a member yet?</h4>
+							<a href="/register">Register Now</a>
+					 </div>

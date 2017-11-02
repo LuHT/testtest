@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Register</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/css/registerStyle.css">
+	<link rel="stylesheet" href="/css/bootstrap.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="js/registrationValidation.js"></script>
+	
+</head>
+<body onload="init()">
+
+	<nav class="navbar navbar-inverse">
+			<div class="container-fluid">
+				<!-- LOGO -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a href="/" class="navbar-brand"><img src="img/logo/logo1.png" class="img-responsive" style="max-height:30px; display:inline; margin-top:-5px;"/><span> RightHere</span></a>
+
+				<!-- Menu Items -->
+				<div class="collapse navbar-collapse" id="navbar">
+					<ul class="nav navbar-nav">
+					</ul>
+				</div>
+			</div>
+	</nav>
+	
+
+		<div class="container" >
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<strong>Registration</strong>
+					</div>
+				<form id="Register-form" method="POST" action="/register" >
+				<div class="panel-body">
+					Profile Pic:
+					<input type='file' id="profilepic" name="files"><br>
+					
+					Email Address:
+					
+					<input type="text" class="form-control" id="email"  name="Email" placeholder="Email Address" onblur="validateEmail()"/ onfocus="OnfocusEmail()">
+					<span id="emailText" style="font-size:12px;" >
+            		</span><br><br>
+            		Profile Names:
+            		<input type="text" class="form-control" id="ProfileName"  name="ProfileName" placeholder="Profile Name" onblur="validateProfileName()">
+					<span id="ProfileNameText" style="font-size:12px;" >
+            		</span><br><br>
+					Password:
+					<input type="password" class="form-control" id="password" name="Password"  placeholder="Password" onfocus="OnfocusPassword()" onblur="onblurPassword()" onkeypress="validatePassword()" onkeyup="validatePassword()" onkeydown="validatePassword()"/><span id="passwordText" style="font-size:12px;">
+				
+					</span><br><br>
+					
+					Confirm Password:
+					<input type="password" class="form-control" id="confirmPassword" name="ConfirmPassword"  onchange="onchangeconfirmPassword()" onfocus="onfocusconfirmPassword()" disabled/><span id="confirmPasswordText" style="font-size:12px;">
+					</span><br><br>
+					
+					Phone Number:<!-- return validatePhone(event) -->
+					<input type="text" class="form-control" id="phonenumber" name= "Phonenumber"  placeholder="Phone number" onblur="validatePhonelength()" onkeypress="return validatePhone(event)" onkeyup="validatePhonelength()" onkeydown="validatePhonelength()" maxlength="10" onfocus="onfocusPhoneNumber()" /><span id="phoneNumberText" style="font-size:12px;"> 
+					
+					</span><br><br>	
+					
+					Category:
+					<select class="form-control" id="category" name="category" onchange="validateCategory()"><!-- <span id="categoryText"></span> --><br><br>
+						<option  id ="SelectC" value="1" disabled selected>Select category</option>
+						<option value="Wearable">Wearable</option> 
+						<option value="Electronics">Electronics</option>
+						<option value="Food">Food</option>
+						<option value="Beauty">Beauty</option>
+						<option value="General">General</option>
+					</select>		
+					<span id="categoryText" style="font-size:12px;"></span>					
+					<br><br>
+					
+					Locations:
+					<input type="text" class="form-control" id="locations" name= "locations" placeholder="Enter Locations event"/><span id="loctionserror" style="font-size:12px;"></span><br><br>
+					
+						
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div id="container-fluid">
+								<div class="col-sm-6" >
+									<div id="mapss" style="width: 100%; height: 100%" class="panel panel-default panel-body"></div> 
+								</div>
+								
+								<div class="col-sm-6">
+									<h5>Chosen shops:</h5>
+									<div id="listing" class="panel panel-default panel-body">
+										<table id="resultsTable">
+											<tbody id="results"></tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					 <div id="info-content">
+						 <table>
+							  <tr id="iw-url-row" class="iw_table_row">
+								<td id="shop_icon" class="iw_table_icon"></td>
+								<td id="Shop-url"></td>
+							  </tr>
+						 </table>
+					</div>
+
+
+					<button class="btn btn-sm btn-primary" id="submit" type="submit">Register</button>
+					</div>
+				
+				</form>
+			</div>	
+		</div>
+			<!-- Modal Alert -->
+	<div class="modal fade" id="myModal" role="dialog" >
+		<div class="modal-dialog">						
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="modal-content" id="modalTitleBody" style="background-color:#f44e42; box-shadow:none">
+								<div class="modal-body" >
+									<button type="button" class="btn btn-circle btn-xl close" data-dismiss="modal"><i class="glyphicon glyphicon-remove-circle"></i></button>
+									<h4 class="modal-title" style="font-weight:bold; font-size:20px; color:white;" id="modalTitle">Warning!</h4>
+								</div>
+							</div>
+						</div>
+						
+						<br>
+						
+						<!-- Alert Text-->
+						<div class="row">
+							<div class="modal-content" style="box-shadow:none">
+								<div class="modal-body">
+									<h5 id="alertMsg">Test</h5>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal success -->
+	<div class="modal fade" id="myModalSuccess" role="dialog" >
+		<div class="modal-dialog">						
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="modal-content" id="modalTitleBody" style="background-color:#f44e42; box-shadow:none">
+								<div class="modal-body">
+									<h4 class="modal-title" style="font-weight:bold; font-size:20px; color:white;" id="modalSuccessTitle">Registration On Pending</h4>
+								</div>
+							</div>
+						</div>
+						
+						<br>
+						
+						<!-- Alert Text-->
+						<div class="row">
+							<div class="modal-content" style="box-shadow:none">
+								<div class="modal-body">
+									<h5 id="alertMsgSuccess"></h5>
+								</div>
+							</div>
+						</div>
+						<br>
+						<!-- Footer-->
+						<div class="row" id="modalSuccessFooter">	
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>		
+	      <!-- <p>
+            <% if(errors){ %>
+                <ul>
+                <% for(var i = 0; i < errors.length; i++){ %>
+                    <li> <%= errors[i] %> </li>
+                <% } %>
+                </ul>
+             <% } %>
+        </p>			 -->
+				
+				
+				
+		<script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrBtMeE1zR3A61Pn9oqW8fcKx5kV5gBI8&libraries=places&callback=initMaps"async defer></script>
+		<script src="js/registerData.js"></script>
+		
+</body>
+</html>

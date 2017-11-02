@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>RightHere</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/datepicker.css">
+	<link rel="stylesheet" href="css/retailerPostStyle.css">
+	<link rel="stylesheet" href="css/toggleSwitch.css">
+	<link rel="stylesheet" href="css/bootstrap-select.min.css">
+
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
+	<script src="js/retailerPostValidation.js"></script>
+	<script src="js/bootstrap-datepicker.js"></script>
+		<script src="js/bootstrap-select.min.js"></script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+	<script src="js/addTicket.js"></script>
+	<script src="js/rewardsystem.js"></script>
+		<script src="js/customizeForm.js"></script>
+	<script src="js/retailerPostOptions.js"></script>
+	
+</head>
+
+<body onload="initialize();" style="margin-top:50px; background-color: #fcfcfc;">
+	
+<!--Navigation bar-->
+	<nav class="navbar navbar-default navbar-fixed-top" style="background-color:#B45048; border-color:#B45048; box-shadow: 1px 0px 10px #640F08;" id="navbarhome">
+		<div class="container-fluid">
+		
+			<ul class="nav navbar-nav pull-right">
+				<li><a onclick="signout()" style="color:white;">Log Out</a></li>
+			</ul>
+		
+			<!-- LOGO -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a href="retailer.html" class="navbar-brand" style="color:white;">RightHere</a>
+			</div>
+	
+			<!-- Menu Items -->
+			<div class="collapse navbar-collapse" id="navbar">
+				<ul class="nav navbar-nav">
+					<li><a href="/retailer" style="color:white;">Home</a></li>
+					<li class="active"><a style="color:white;">Post</a></li>
+					<li><a href="/retailerArchive" style="color:white;">Archive</a></li>
+				</ul>
+			</div>		
+		</div>
+	</nav>
+
+
+	
+	
+	<div class="container" style="margin-bottom:100px;">
+<!-- 	encType="multipart/form-data" -->
+		<form  id="PostInfo-form" method="POST"  >
+			
+			<!-- Page title -->
+			<div class="container">
+				<h1  name="Cretea" class="page-header">Create post...</h1>
+			</div>
+
+			
+			<div class="container">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<!--SHOPNAME COMPULSORY-->
+						<div class="shopname">
+							<label for="Shopname">Name:</label>
+								<input type='text' class="form-control" name ="organizer_name" id="shopName" value="<%= shopName %>" readonly>
+								<br>
+						 </div>
+						<div class = "event_title">
+							<label for="event_title">Event Title:</label>
+							<input type='text' class="form-control" name ="event_title" id="event_title">
+							<br>
+						</div>		 
+						<!--SHOPNAME CATEGORY-->
+						<div class="category">
+							<label for="shopCategory">Shop Category:</label>
+<!-- 								<div id="AddshopCategoryBox" style="display:none;">
+									<input type='text' class="form-control" id="AddshopCategory" name = "AddCategory" placeholder='Input New Category' >
+								</div> -->
+
+								<div  id="DefaultshopCategoryBox" >
+									<select type='text' class="form-control" id="shopCategory"  name = "category" value="<%= shopCategory %>">
+									<option id = "selectedOp" value="selected"  selected="true" disabled="true">Select Shop Category from you've used in the past</option>
+									 <%for(var x = 0 ; x <= shopCategory.length-1; x++ ) { %>
+										<option id = "<%=x+1 %>"  value="<%=shopCategory[x] %>"><%=shopCategory[x]%></option>
+									<% } %>
+									</select>
+								</div>
+									
+<!-- 								<a style="cursor:pointer" onclick="ShowAddshopCategoryBox()" id="AddshopCategoryL">Add New Category</a> -->
+								<br>
+							
+						</div>
+								
+						<!--Event Previous LOCATION COMPULSORY-->
+						<div>
+							<label for="location">Location:</label>
+<!-- 							 	<div id="PreviousLocationBox" >
+									<select type='text' class="form-control" id="PreviousLocation" name = "PreviousLocation" value="<%= shopCategory %>">
+										<option id = "selectedOp2" value="selected" selected="true" disabled="true">Select Shop Category from you've used in the past</option>
+										<%for(var x = 0 ; x <= shopCategory.length-1; x++ ) { %>
+										<option id = "<%=x+1 %>" value="<%=shopCategory[x] %>"><%=shopCategory[x]%></option>
+										<% } %>
+									</select>
+								</div>
+ -->
+
+						<!--Event New LOCATION COMPULSORY-->
+						<div id="locationBox" >
+							<input type="text" id="AutoSearch" class="form-control" name="address" placeholder="Specify Where it's Held">
+						</div>
+
+						<div id="locationAdd" style="display:none;" class="panel panel-default panel-body">
+							<div id="mapss" style="padding-top: 60.25%;"  class="panel panel-default panel-body" ></div> 
+								<a style="cursor:pointer" onclick="Reloction()" id="Relocation">Re-location</a>
+						</div>
+						<!-- <a style="cursor:pointer" onclick="ShowlocationBox()" id="AddLocation">Add New Location</a> -->
+								  
+						<div class="panel panel-default" id="locationDropDown" style="display:none;">
+							<div class="panel-body" id="shopLocationDiv"></div>
+						</div>
+						<br>
+								
+						<!--Date Picker-->
+						<div class="row">
+							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+								<label class="control-label" for="date">Start Date: </label>
+								<div class="bootstrap-iso">
+									<input class="form-control" id="startDate" name="start_date" placeholder="YYYY-MM-DD" type="text" onchange="changeDate()" />
+								</div>
+							</div>
+
+							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+								<label class="control-label" for="date">End Date: </label>
+									<div class="bootstrap-iso">
+										<input class="form-control" id="endDate" name="end_date" placeholder="YYYY-MM-DD" type="text" disabled="true" />
+									</div>
+							</div>
+						</div>
+						<br>
+
+						<!--ADVERTISEMENT/PROMOTION DESCRIPTION COMPULSORY-->
+						<div class="description">
+							<label for="description">Description</label>
+								<textarea  class="form-control" id ="description" style="max-width:100%; min-width:100%;" type='text' name='description' placeholder='Description...'></textarea>
+							<br>
+						</div>
+								
+						<!--ADVERTISEMENT PICTURE OPTIONAL-->	
+						<div class="panel panel-default panel-body"  id="adPic" style="display:none;">
+							<a class="pull-right" style="font-size:20px;" onclick="hidePicture()"><span class="glyphicon glyphicon-remove-sign fa-lg"></span></a>	
+								<label for="AdPic">Advertisement Picture:</label>
+									<input type='file' id="advpic" name="file" onchange="readURL(this);"/><br>
+										<div class="panel panel-default" id="imageDiv" style="display:none;">
+											<div class="panel-body" style="display: flex; justify-content: center;">
+												<img id="imgPreview" class="img-responsive" src="#" style="max-height:500px;" alt="No picture selected">
+											</div>
+										</div>		
+						</div>
+
+						<!--Visibility of ORIPRICE, RANGE, DISCOUNT RATE-->
+						<div class="dropdown" style="margin-bottom:30px;">
+							<button type="button" id="addFunctionButton" class="btn btn-primary active dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-plus"></span></button>
+								<ul class="dropdown-menu">
+									<li id="adPicList"><a onclick="addPicture()">Picture</a></li>
+	<!-- 							<li id="oriPirceList"><a onclick="addOriPrice()">Original Price</a></li>
+									<li id="discountRateList"><a onclick="addDiscountRate()">Discount Rate</a></li>
+									<li id="discountRangeList"><a onclick="addDiscountRange()">Discount Range</a></li>
+									<li id="adSpecification"><a onclick="addSpecification()">Specification</a></li> -->
+								</ul>
+						</div>	  
+					</div>
+					
+
+				</div>
+			</div>
+		</div>
+
+			<!--Pricing-->
+			<div class="container">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+								<label>Participation</label>
+								<p>Event participation with ticket system</p>
+							</div>
+							<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+								<label class="switch pull-right">
+								  <input name= "participate" type="checkbox" id="ticketSwitch" onchange="switchFunction('ticketSwitch','ticketMainContainer')">
+								  <span class="slider round"></span>
+								</label>
+							</div>
+						</div>
+						<br>
+							
+						<div class="container-fluid" id="ticketMainContainer" style="display:none">
+							<hr>
+							<div class="container-fluid" id="ticketContainer">
+
+							<!--div class="panel panel-default panel-body" id="ticket1">
+
+								<a class="pull-right" style="font-size:20px;"><span name="test" class="glyphicon glyphicon-remove-sign fa-lg" onclick="test()"></span></a>
+								
+								<label>Ticket   </label>
+								<a class="pull-right" style="margin-right:10px; margin-top:3px;" onclick="showTicketBox()">Edit</a>
+								<div class="container-fluid" id="ticketContent" style="display: none">
+									<hr>
+									<label>Ticket type:</label>
+									<select type='text' class="form-control" id="ticketType"  name="ticketType">
+										<option id="ticketOption" value="ticketOptionSelection"  selected="true">Free</option>
+										<option id="ticketOption" value="ticketOptionSelection">Not Free</option>
+									</select>
+									<br>
+
+									<label>Ticket Price</label>
+									<input class="form-control" type="text" name="ticketPrice"/>
+									<br>
+
+									<label>Ticket Title</label>
+									<input class="form-control" type="text" name="ticketTitle"/>
+									<br>
+
+									<label>Ticket Description</label>
+									<input class="form-control" type="text" name="ticketDesc"/>
+									<br>
+
+									<label>No. Available Ticket</label>
+									<input class="form-control" type="text" name="ticketDesc"/>
+									<br>
+
+									<div class="row">
+										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+											<label class="control-label" for="date">Start Date: </label>
+											<div class="bootstrap-iso">
+												<input class="form-control" id="TicketStartDate" name="TicketStartDate" placeholder="YYYY-MM-DD" type="text" onchange="changeDate()" />
+											</div>
+										</div>
+
+										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+											<label class="control-label" for="date">End Date: </label>
+												<div class="bootstrap-iso">
+													<input class="form-control" id="TicketEndDate" name="TicketEndDate" placeholder="YYYY-MM-DD" type="text" disabled="true" />
+												</div>
+										</div>
+									</div>
+									<br>
+								</div>
+							</div-->
+						</div>
+						
+
+						<div class="container-fluid">
+							<a class="btn btn-primary" onclick="addTicket()">Add ticket</a>
+						</div>
+						<br>
+					</div>
+				</div>
+			</div>
+		</div>
+
+			<!--Collaborator-->
+			<div class="container">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+								<label>Collaboration</label>
+							</div>
+							<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+								<label class="switch pull-right">
+								  <input name="collaborate" type="checkbox" id="collaborationSwitch" onchange="switchFunction('collaborationSwitch','collaborationContainer')">
+								  <span class="slider round"></span>
+								</label>
+							</div>
+							<br><hr>
+						</div>
+						
+						<div class="container-fluid" id="collaborationContainer">
+							<!--Collaborator-->
+							<div class="row">
+								<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+									<label>Enable public to collaborater</label>
+								</div>
+								<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+									<label class="switch pull-right">
+									  <input name = "publicity" type="checkbox">
+									  <span class="slider round"></span>
+									</label>
+								</div>
+								<br><hr>
+							</div>
+							<label>Invited Retailer</label>
+							<select multiple="true" class="selectpicker" name="invited_retailer" >
+								<%for(var x = 0 ; x <= Retailername.length-1; x++ ) { %>
+											<option id = "<%=x+1 %>"  value="<%=Retailername[x] %>"><%=Retailername[x]%></option>
+								<% } %>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--Survey-->
+			<div class="container">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+								<label>Survey</label>
+								<p>Survey Questions (Max 10 questions)</p>
+							</div>
+							<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+								<label class="switch pull-right">
+								  <input type="checkbox" id="surveySwitch" name="surveysystem" onchange="switchFunction('surveySwitch','surveyMainContainer')">
+								  <span class="slider round"></span>
+								</label>
+							</div>
+							<br><hr>
+						</div>
+
+						<div class="container-fluid" id="surveyMainContainer" style="display: none">
+								<div class="container-fluid" id="surveyContainer"><br>
+								
+								</div>
+							<br>
+
+							<div class="dropdown" style="margin-bottom:30px;">
+								<button type="button" id="addFunctionButton" class="btn btn-primary active form-control dropdown-toggle" data-toggle="dropdown" style="box-shadow: -1px 2px 2px 2px rgba(153,153,153,1);">Add Question <span class="glyphicon glyphicon-plus"></span></button>
+									<ul class="dropdown-menu">
+										<li id="addShortAnswer"><a onclick="addInputTextQuestion()">Short Answer</a></li>
+										<li id="addMultiChoice"><a onclick="addMultichoiceQuestion()">MultiChoice</a></li>
+										<li id="addCheckBoxes"><a onclick="addCheckboxQuestion()">CheckBoxes</a></li>
+										<li id="addDropdown"><a onclick="addDropdownQuestion()">Dropdown</a></li>
+									</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--Reward-->
+			<div class="container">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+								<label>Reward</label>
+							</div>
+							<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+								<label class="switch pull-right">
+								  <input name = "rewardsystem" type="checkbox" id="rewardSwitch" onchange="switchFunction('rewardSwitch','rewardContainer')">
+								  <span class="slider round"></span>
+								</label>
+							</div>
+							<br><hr>
+						</div>
+						
+						<div class="container-fluid" id="rewardContainer" style="display: none">
+							<label>Input something here</label>
+							<div class="Reward_Point">
+								<label for="Reward Point">Reward Point</label>
+								<input type="text" id="reward_point" class="form-control" onkeypress="return validateNumber(event)" name="reward_point" placeholder="Specify Where it's Held">
+								<br>
+							</div>
+							<div class="description">
+								<label for="description">T & C</label>
+									<textarea  class="form-control" id ="term_condition" style="max-width:100%; min-width:100%;" type='text' name='term_condition' placeholder='T & C'></textarea>
+								<br>
+							</div>
+							
+							<div class="container-fluid" id="Reward_Container">
+							</div>
+							<div id="get_reward" class="container-fluid">
+								<a class="btn btn-primary" onclick="AddReward()">Reward</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<button class="btn btn-primary form-control" id="upload-submit">Upload files</button>
+			</div>
+
+		</form>
+	</div>
+	
+		
+		<!-- ###### Error Message Modal ###### -->
+		<div class="modal fade" id="errModal" role="dialog" >
+			<div class="modal-dialog">			
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-body">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="modal-content modal-body" style="background-color:#f44e42; box-shadow:none">
+									<button type="button" class="btn btn-circle btn-xl close" data-dismiss="modal"><i class="glyphicon glyphicon-remove-circle" style="color:black;"></i></button>
+									<strong><h4 class="modal-title" style="color:white;">Incomplete Form for Posting</h4></strong>
+								</div>
+							</div>
+								
+							<div class="row">
+								<div class="container-fluid">		
+									<h4 id="errMsg"></h4>
+								</div>	
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- ###### Post Success Modal ###### -->
+		<div class="modal fade" id="postModal" role="dialog" >
+			<div class="modal-dialog">			
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-body">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="modal-content modal-body" style="background-color:#77d880; box-shadow:none">
+									<strong><h4 class="modal-title" style="color:white;">Posting Ads</h4></strong>
+								</div>
+							</div>
+								
+							<div class="row">
+								<div class="container-fluid" id="mdlMsg">		
+									<br>
+								</div>	
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+			 <div id="info-content">
+				<table>
+					<tr id="iw-url-row" class="iw_table_row">
+					<td id="shop_icon" class="iw_table_icon"></td>
+					<td id="Shop-url"></td>
+					</tr>
+				</table>
+			</div>
+
+	<script src="js/app.js"></script>
+	<script src="js/retailerAddDiv.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrBtMeE1zR3A61Pn9oqW8fcKx5kV5gBI8&libraries=places&callback=getLocation"
+    async defer></script> 
+
+</body>
+</html>

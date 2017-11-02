@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>RightHere</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link rel="stylesheet" href="/css/bootstrap.css">
+	<link rel="stylesheet" href="/css/homeStyle.css">
+	<link rel="stylesheet" href="/css/loading.css">
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
+	<script src="js/fadeInBody.js"></script>
+	<script src="js/navbaranim.js"></script>
+	<script src="js/SignInValidate.js"></script>
+	
+</head>
+<body onload="navbarDesign(); init();" style="display:none" id="bodystyle">
+	
+	<nav class="navbar navbar-default navbar-fixed-top" style="background-color:#B45048; border-color:#B45048;" id="navbarhome">
+		<div class="container-fluid">
+			<ul class="nav navbar-nav pull-right">
+				<li>
+				    <%if (Layout_type == "Layout") { %>
+						<% include templates/SignInLayout.ejs %>
+					<% }else { %>
+						<% include templates/SignInLayout_Retailer.ejs %>
+					<% } %>
+				</li>
+			</ul>
+			<!-- LOGO -->
+			<div class="navbar-header">
+				<a href="#" class="navbar-brand" style="color:white"><img src="img/logo/logo1.png" class="img-responsive" style="max-height:30px; display:inline; margin-top:-5px;"/><span> RightHere</span></a>
+				<span class="btn btn-default btn-md glyphicon glyphicon-menu-down navbar-toggle pull-left" data-toggle="collapse" data-target="#navbar" style="z-index:10000; margin-top:11px; color:white"></span>
+			</div>
+
+			<!-- Menu Items -->
+			<div class="collapse navbar-collapse" id="navbar">
+				<ul class="nav navbar-nav">
+					<li><a href="#home" class="page-scroll" style="color:white">Home</a></li>
+					<li><a href="#about" class="page-scroll" style="color:white">About Bargin</a></li>
+					<li><a href="#developers" class="page-scroll" style="color:white">Developers</a></li>
+					<li><a href="#contact" class="page-scroll" style="color:white">Contact Us</a></li>
+					<li><a href="#help" class="page-scroll" style="color:white">Help</a></li>
+				</ul>
+			</div>		
+		</div>
+	</nav>
+	
+	<header id="home" style="height:100%; width:100%;">
+		<div class="header-content">
+			<div class="header-content-inner">
+			<h1 id="homeHeading">Location Based Marketing System</h1>
+			<hr>
+			<p>Try out our location based marketing system now! Get your advertisement and promotions with just a click away!</p>
+			<a href="#about" class="btn btn-primary btn-xl page-scroll">More Information</a>
+			</div>
+		</div>
+	</header>
+
+	<section id="about" style="height:100%; width:100%;">
+		<div class="section-content">
+			<div class="section-content-inner" style="margin-top:-50px;">
+			<h2>BARGIN - Location Based Marketing Platform</h2>
+			<hr>
+				<p>
+					The location based marketing is a marketing strategy where user is alert with offers from near-by businesses.
+					On that basis, this project aims to provide a platform for businesses to advertise their products as well as guiding the customers to the business.
+					With Mostadvertising method, businesses lack the means to estimate the substantial benefit an advertiser promised to generate. 
+					To make things worse, most customers often find themselves unheaded to the setting of an advertisement. To solve these problems, this project
+					introduces a system to systematically track each and every transaction between a business and their customers whom were guided by the system through
+					a single click. As a result, the system creates a mutual-beneficial trading environment through joint collaboration between a business and a customer.
+				</p>
+			</div>
+		</div>
+	</section>
+
+    <section id="developers" style="background-color:grey; height:100%; width:100%;">
+		<div class="section-content">
+			<div class="section-content-inner">
+			<h2>BARGIN Developers</h2>
+			<hr>
+			<p>The developers are students from Swinburne University of Technology in Sarawak campus undergoing their final year project which includes Bargin as their main project.
+					With the help of their supervisors and also information needed from their Clients. This project is made possible for them. The team leader of this project is Kelvin Wong, and with two
+					members who are Joshua Lo and Lu Heng Tung.</p>
+				 <a href="#portfolio" class="page-scroll btn btn-default btn-xl sr-button">Get Started!</a>
+			</div>
+		</div>
+	</section>
+
+    <section id="contact" style="height:100%; width:100%;">
+		<div class="section-content">
+			<div class="section-content-inner">
+			<h2>Contacts</h2>
+			<hr>
+			<p>Find out more information on advertising and promoting your product through this platform!</p>
+				 <a href="#portfolio" class="page-scroll btn btn-default btn-xl sr-button">Get Started!</a>
+			</div>
+		</div>
+	</section>
+
+	<section id="help" style="height:100%; width:100%; background-color:grey;">
+		<div class="section-content">
+			<div class="section-content-inner">
+				<h2>Help Service</h2>
+				<hr>
+				<p>Coming Soon</p>
+			</div>
+		</div>
+	</section>
+
+	<footer class="bg-primary"> 
+		last edited 27/8/2017 by Joshua Lo
+
+	</footer>
+
+</body>
+</html>

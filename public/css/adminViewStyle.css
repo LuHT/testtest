@@ -1,0 +1,52 @@
+body {
+	background: #282828 !important;	
+}
+
+#headerTitle{
+	margin-top: 0px;
+}
+
+/*TABLE ADJUSTMENTS*/
+.table-hover tbody tr:hover td {
+    background-color: #4b5566;
+	color:white;
+	transition:0.3s;
+}
+
+.table-responsive{
+	  height:auto;
+}
+
+/*
+.fade-scale {
+  transform: scale(0);
+  opacity: 0;
+  -webkit-transition: all .25s linear;
+  -o-transition: all .25s linear;
+  transition: all .25s linear;
+}
+
+.fade-scale.in {
+  opacity: 1;
+  transform: scale(1);
+}*/
+
+.modal {
+  text-align: center;
+  padding: 0!important;
+}
+
+.modal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -4px; /* Adjusts for spacing */
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+

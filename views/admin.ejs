@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Admin Page</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/css/bootstrap.css">
+	<link rel="stylesheet" href="/css/adminStyle.css">
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" rel="stylesheet"/>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
+	<script src="js/adminPanel.js"></script>
+	<script src="js/adminAuthRetailer.js"></script>
+	<script src="js/smtp.js"></script>
+	
+	
+</head>
+
+<body onload="initFirebase();animateBars();getKey();"> 
+	
+	<!-- ######################## Navigation bar ######################## -->
+	<nav class="navbar navbar-inverse" style="min-width:800px;">
+		<div class="container-fluid">
+			
+			<ul class="nav navbar-nav pull-right">
+				<li><a onclick="signout()">Log Out</a></li>
+			</ul>
+			
+			<!-- LOGO -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+					<span class=" glyphicon glyphicon-menu-down fa-lg" style="color:white;"></span>
+				</button>
+				<a href="#" class="navbar-brand" id="headerTitle">Admin Panel</a>
+			</div>
+	
+			<!-- Menu Items -->
+			<div class="collapse navbar-collapse" id="navbar">
+				<ul class="nav navbar-nav">
+					<li class="active"><a>Home</a></li>
+					<li><a href="adminViewRetailer.html">Retailers</a></li>
+					<li><a href="adminViewUser.html">Users</a></li>
+					<li><a href="adminViewAds.html">Ads</a></li>
+				</ul>
+			</div>		
+		</div>
+	</nav>
+
+	<!-- ######################## PANELS ######################## -->
+	<div class="container" style="min-width:800px;">
+		<!--CURRENT STATUS-->
+		<div class="row clearfix">
+			<div class="col-xs-4 col-sm-4">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<span><button class="btn-circle" id="retailerButton" disabled><span class="glyphicon glyphicon-home"></span></button><strong id="numRetailers"></strong> Retailers</span>
+
+						<div class="container-fluid" style="margin-top: 10px;">
+							<div class="row">
+								<span><strong id="newRetailers"></strong> needs authentication</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-xs-4 col-sm-4">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<span><button class="btn-circle"  id="userButton" disabled><span class="glyphicon glyphicon-user"></span></button><strong> 0</strong> Users</span>
+
+						<div class="container-fluid" style="margin-top: 10px;">
+							<div class="row">
+								<span><strong id="newUser"></strong> new users registered</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-xs-4 col-sm-4">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<span><button class="btn-circle" id="adsButton" disabled><span class="glyphicon glyphicon-tags"></span></button><strong> 0</strong> Ads</span>
+
+						<div class="container-fluid" style="margin-top: 10px;">
+							<div class="row">
+								<span><strong id="TotalAds"></strong> new ads posted</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--END OF CURRENT STATUS-->
+		
+		<!--STATISTICS-->
+		<div class="row clearfix">
+			<div class="col-xs-4 col-sm-4">
+				<div class="panel panel-default">
+					<div class="panel-heading" id="panelheadingRetailer" style="background-color: #a8e7ff;">
+						<span><strong>Retailer Statistics</strong></span>
+						<h6 style="margin-top:-3px; margin-bottom:-2px; color:grey;">The number of active retailers</h6>
+					</div>
+					
+					<div class="panel-body">
+						<div class="col-xs-12 col-sm-12 progress-container">
+						  <span>Active Retailers:</span>
+							<div class="progress active">
+								<div id="activeRetailer" class="progress-bar progress-bar-success" ></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-xs-4 col-sm-4">
+				<div class="panel panel-default">
+					<div class="panel-heading" id="panelheadingUser">
+						<span><strong>User Statistics</strong></span><br>
+						<h6 style="margin-top:-3px; margin-bottom:-2px; color:grey">The number of active users</h6>
+					</div>
+					
+					<div class="panel-body">
+						<div class="col-xs-12 col-sm-12 progress-container">
+						  <span>Active users:</span>
+							<div class="progress active">
+								<div id="activeUser" class="progress-bar progress-bar-success" ></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+	
+			
+			<div class="col-xs-4 col-sm-4">
+				<div class="panel panel-default">
+					<div class="panel-heading" id="panelheadingAds" style="background-color: #ff8c8c;">
+						<span><strong>Ads Statistics</strong><span>
+						<h6 style="margin-top:-3px; margin-bottom:-2px; color:grey;">The number of active ads available</h6>
+					</div>
+					
+					<div class="panel-body">
+						<div class="col-xs-12 col-sm-12 progress-container">
+						  <span>Current Ads:</span>
+							<div class="progress active">
+								<div id="activeAds" class="progress-bar progress-bar-success"></div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--Retailer Authentication-->
+	<div class="container" style="min-width:800px;">
+		<div class="row clearfix">
+			<div class="col-xs-12 col-sm-12">
+				<div class="panel panel-default">
+					<div class="panel-body" style="background-color: #c6c6c6">
+						<div class="container-fluid">
+							<span>
+								<h4 class="pull-left"><strong>Authentication</strong></h4>
+								<button class="pull-right" style="border-radius:25%; margin-top:5px; background-color:#282828" onclick="showhideretailer()">
+									<span id="spanBtn" class="glyphicon glyphicon-menu-up fa-lg" style="color:grey;"></span>
+								</button>
+							</span>
+							<hr>
+						</div>
+
+						<div id="authRetailer" class="container-fluid" style="margin-top: 10px; display:block;">
+							<table id="table" class="table table-bordered table-hover" style="background-color:white;">
+								<thead>
+								  <tr style="background-color:#383838;color:white;">
+									<th>Shopname</th>
+									<th>Location</th>
+									<th>Email</th>
+									<th></th>
+								  </tr>
+								</thead>
+								
+								<tbody id="tableb">
+									<!-- INSERT FROM ADMINAUTHRETAILER.JS -->
+								</tbody>
+							  </table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" role="dialog" >
+		<div class="modal-dialog">
+									
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<strong><h4 class="modal-title" id="shopname">Shop Name</h4></strong>
+				</div>
+				<div class="modal-body">
+					<div class="row clearfix">
+						<div class="col-xs-3 col-sm-3">
+							<img src="img/profile/download.png" class="img-responsive" style="max-width:100px; min-width:100px;" alt="Image" id="profilePic">							
+						</div>
+						
+						<span class="col-xs-9 col-sm-9">
+							<h5><strong>Category:</strong><span id="scategory"></span></h5>
+							<h5><strong>Shop Location:</strong><span id="slocation"></span></h5>
+							<h5><strong>Email Address:</strong><span id="semail"></span></h5>
+							<h5><strong>Phone Number:</strong><span id="sphone"></span></h5>
+						</span>
+					</div>
+					<div class="modal-footer">
+							<button id="AcceptBtn" class="btn btn-success" data-dismiss="modal" onclick= "Accept()">Accept  <span class="glyphicon glyphicon-ok fa-lg" style="color:white;"></span></button>
+							<button id= "DeclineBtn" class="btn btn-danger" data-toggle="modal" data-target="#declineModalPopup" onclick="declineInfo()">Decline  <span class="glyphicon glyphicon-remove fa-lg" style="color:white;"></span></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--Modal for decline authentication-->
+	<div class="modal fade" id="declineModalPopup" role="dialog">
+		<div class="modal-dialog">
+									
+			<!-- Modal content-->
+			<div class="modal-content">
+				<!--div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<strong><h4 class="modal-title" id="shopname">Shop Name</h4></strong>
+				</div-->
+				<div class="container-fluid" style="margin-left:10px;margin-right:10px;margin-top:10px; margin-bottom:10px;">
+					<div class="row">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<strong><h4 class="modal-title" id="shopname">Decline Retailer Registration</h4></strong>
+					</div>
+					<br>
+					<div class="row">
+						<div class="container-fluid">
+							<label>Email to:</label>
+							<input type="text" class="form-control" id="emailToRetailer" disabled></input>
+							<br>
+							
+							<span><strong>Subject</strong>: Declination of Samfah Location Based Marketing Registration</span><hr style="margin-bottom:-3px;">
+							<br>
+							<label>Content:</label>
+							<textarea class="form-control" id="emailContent"></textarea>
+							<span id="sendEmailSpan" style="color:red; margin-left:5px;"></span>
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="container-fluid">
+							<button class="btn btn-danger" id ="sendEmail" data-dismiss="modal" onclick="sendEmail()">Send and Decline</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,38 @@
+function init()
+{
+
+		console.log("Test!!!!");
+	
+		var config = 
+	{	
+			
+			//Lu
+			apiKey: "AIzaSyDbJRXZt4wPpolvFtxw2KBoWhrDRiYubgw",
+			authDomain: "sppm1-6f7df.firebaseapp.com",
+			databaseURL: "https://sppm1-6f7df.firebaseio.com",
+			projectId: "sppm1-6f7df",
+			storageBucket: "sppm1-6f7df.appspot.com",
+			messagingSenderId: "318196887976"
+  };
+	firebase.initializeApp(config);
+	
+	firebase.auth().onAuthStateChanged(function(user) {
+		if(user)
+		{
+			console.log("Sign in user : " + user.uid);
+			console.log("Sign in user email : " + user.email);
+			console.log(localStorage.getItem("ShopName"));
+			document.getElementById("signin").innerHTML = localStorage.getItem("ShopName");
+			document.getElementById("signin").href="retailer.html"; 
+			console.log(document.getElementById("signin"));
+		}
+			
+	else
+	{
+		console.log("no user");	
+		document.getElementById("signin").innerHTML = "Sign In"
+		document.getElementById("signin").href="/signIn"; 
+		console.log(document.getElementById("signin"));
+	}
+	});
+}

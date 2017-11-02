@@ -1,0 +1,55 @@
+.container-fluid{
+  position: relative;
+}
+
+.service1{
+  font-size: 20px;
+}
+
+hr.style{
+  border-top: 1px solid #F05F40;
+  border-width: 3px;
+  max-width: 50px;
+  margin-left: 350px;
+
+}
+
+body{
+	background-size: 1800px;
+}
+
+
+h2{
+	color: white;
+	text-align: center;
+}
+
+h3{
+	text-align: center;
+	color: grey;
+	opacity: 1;
+}
+h4{
+	text-align: center;
+	color: white;
+
+}
+
+
+li{
+	color:black;
+}
+
+
+.section-heading{
+	color: black;
+}
+
+.container-header h1{
+	font-size: 80px;
+	text-align: center;
+	color: white;	
+	font-weight: 500;
+}
+
+

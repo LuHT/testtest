@@ -1,0 +1,16 @@
+#navbar a:hover{
+	transition:0.7s;
+	background-color:#640F08;
+	border-radius:50px;
+	box-shadow:-2px -1px 5px #640F08;
+}
+
+  .navbar-default .navbar-nav > .active > a, 
+  .navbar-default .navbar-nav > .active > a:hover, 
+  .navbar-default .navbar-nav > .active > a:focus {
+    color: #000;
+    background: #8F2D25;
+	border-radius:50px;
+	box-shadow:-2px -1px 5px #640F08;
+	transition:0.7s;
+   }
