@@ -72,7 +72,7 @@ app.use('/TransactionAPI', TransactionAPI);
 
 //listen
 app.listen(server_port, server_ip_address, function() {
-  console.log('Node app is running on port', app.get('port'));
+  console.log( "Listening on " + server_ip_address + ", server_port " + server_port );
 });
 
 var admins = require("firebase-admin");
