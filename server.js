@@ -32,7 +32,8 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
-app.set('port', (process.env.PORT || 5000));
+var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
  var path = require('path');
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -70,7 +71,7 @@ app.use('/EventAPI', EventAPI);
 app.use('/TransactionAPI', TransactionAPI);
 
 //listen
-app.listen(app.get('port'), function() {
+app.listen(server_port, server_ip_address, function() {
   console.log('Node app is running on port', app.get('port'));
 });
 
